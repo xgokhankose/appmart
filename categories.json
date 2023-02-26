@@ -1,0 +1,102 @@
+[
+    {
+      "id": 1,
+      "category": "Electronics"
+    },
+    {
+      "id": 2,
+      "category": "Home and Garden"
+     
+    },
+    {
+      "id": 3,
+      "category": "Fashion and Accessories"
+     
+    },
+    {
+      "id": 4,
+      "category": "Health and Beauty"
+
+    },
+    {
+      "id": 5,
+      "category": "Sports and Outdoors"
+      
+    },
+    {
+      "id": 6,
+      "category": "Toys and Games"
+      
+    },
+    {
+      "id": 7,
+      "category": "Books and Media"
+
+    },
+    {
+      "id": 8,
+      "category": "Automotive"
+     
+    },
+    {
+      "id": 9,
+      "category": "Food and Beverage"
+     
+    },
+    {
+      "id": 10,
+      "category": "Pet Supplies"
+     
+    },
+    {
+        "id": 11,
+        "category": "Art and Collectibles"
+       
+      },
+      {
+        "id": 12,
+        "category": "Baby and Kids"
+       
+      },
+      {
+        "id": 13,
+        "category": "Business and Industrial"
+       
+      },
+      {
+        "id": 14,
+        "category": "Cameras and Photography"
+       
+      },
+      {
+        "id": 15,
+        "category": "Computers and Tablets"
+       
+      },
+      {
+        "id": 16,
+        "category": "Crafts and DIY"
+       
+      },
+      {
+        "id": 17,
+        "category": "Jewelry and Watches"
+       
+      },
+      {
+        "id": 18,
+        "category": "Musical Instruments"
+       
+      },
+      {
+        "id": 19,
+        "category": "Office Supplies and Equipment"
+       
+      },
+      {
+        "id": 20,
+        "category": "Travel and Luggage"
+       
+      }
+
+]

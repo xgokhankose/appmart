@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import Tabs from "./navigation/Tabs";
+import AuthStack from "./navigation/AuthStack";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  useFonts,
+  Nunito_400Regular,
+  Nunito_700Bold,
+} from "@expo-google-fonts/nunito";
+import { getAuth } from "firebase/auth";
 
 export default function App() {
+  const [isLogin, setIsLogin] = useState();
+  
+  useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      setIsLogin(!!user);
+    });
+  }, []);
+
+  const [fontLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_700Bold,
+  });
+
+  if (!fontLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {!isLogin ? <AuthStack /> : <Tabs />}
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
