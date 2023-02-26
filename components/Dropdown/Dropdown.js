@@ -22,7 +22,7 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
   console.log(dropdownIsOpen);
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{header}Choose category</Text>
+      <Text style={styles.header}>{header}Choose category </Text>
       <View style={styles.selected}>
         <TextInput
           placeholder="Select product category"
