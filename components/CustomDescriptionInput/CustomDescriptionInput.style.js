@@ -12,6 +12,7 @@ export default StyleSheet.create({
         borderColor:"#BEBEBE",
         height:100,
         borderRadius:6,
+        paddingHorizontal:5
         
     },
     header:{

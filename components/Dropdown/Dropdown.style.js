@@ -22,11 +22,7 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft:10
   },
-  selectedText: {
-    fontFamily: "Nunito_400Regular",
-    fontSize: 16,
-    width: device.width * 0.5,
-  },
+ 
   dropdown_icon: {
     width: 20,
     height: 20,
@@ -43,11 +39,20 @@ export default StyleSheet.create({
     width:15,
     marginRight:2
   },
-  dropdown:{
+  dropdown_container:{
     borderWidth: 2,
     borderTopWidth:0,
     borderColor: "#BEBEBE",
     borderRadius: 6,
     maxHeight:device.height*0.2
+  },
+  dropdown_item:{
+    padding:10,
+    height:40,
+  },
+  dropdown_item_text:{
+    color:"#ED6663",
+    fontSize:17,
+    
   }
 });

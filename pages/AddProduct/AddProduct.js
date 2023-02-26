@@ -90,6 +90,7 @@ const AddProduct = () => {
         name: name,
         description: description,
         user: getAuth().currentUser.email,
+        category:selected,
         picturePath: result[1],
       });
       console.log("Document written with ID: ", docRef.id);

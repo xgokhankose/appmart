@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "./Dropdown.style";
@@ -6,12 +6,13 @@ import styles from "./Dropdown.style";
 const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const [filteredList,setFilteredList]=useState(list)
+  const [searchInput,setSearchInput]=useState("")
 
   const listMap = () => {
     console.log(selected);
     return filteredList.map((item, i) => (
-      <TouchableOpacity onPress={() => {selectedOnPress(item.category); setDropdownIsOpen(false)}}>
-        <Text>{item.category}</Text>
+      <TouchableOpacity style={styles.dropdown_item} onPress={() => {selectedOnPress(item.category); setDropdownIsOpen(false)}}>
+        <Text style={styles.dropdown_item_text}>{item.category}</Text>
       </TouchableOpacity>
     ));
   };
@@ -20,13 +21,16 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
     setDropdownIsOpen(!dropdownIsOpen);
   };
   console.log(dropdownIsOpen);
+
+  useEffect(() => {setFilteredList(list.filter((item)=>item.category.includes(searchInput)))},[searchInput])
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{header}Choose category </Text>
       <View style={styles.selected}>
         <TextInput
-          placeholder="Select product category"
-          style={styles.selectedText}
+          placeholder="Search product category..."
+          style={styles.dropdown_item_text}
+          onChangeText={setSearchInput}
         >
           {selected}
         </TextInput>
@@ -48,7 +52,7 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
         </TouchableOpacity>
       </View>
       {dropdownIsOpen ? (
-        <ScrollView style={styles.dropdown}>{listMap()}</ScrollView>
+        <ScrollView style={styles.dropdown_container}>{listMap()}</ScrollView>
       ) : (
         ""
       )}
