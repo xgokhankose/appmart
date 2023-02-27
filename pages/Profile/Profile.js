@@ -4,16 +4,19 @@ import ProfileButton from "../../components/ProfileButton";
 import ProfileButtonRed from "../../components/ProfileButtonRed";
 import { getAuth, signOut } from "firebase/auth";
 import AddProduct from "../AddProduct";
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const Profile = ({ navigation }) => {
+
+   
+
   const currentUser = getAuth().currentUser;
 
   const navigateAddProduct = () => {
-    console.log(navigation);
     navigation.navigate("AddProductPage");
   };
   const navigateViewProducts = () => {
-    console.log(navigation);
     navigation.navigate("ViewProductsPage");
   };
 

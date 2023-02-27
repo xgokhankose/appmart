@@ -9,7 +9,6 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
   const [searchInput,setSearchInput]=useState("")
 
   const listMap = () => {
-    console.log(selected);
     return filteredList.map((item, i) => (
       <TouchableOpacity style={styles.dropdown_item} onPress={() => {selectedOnPress(item.category); setDropdownIsOpen(false)}}>
         <Text style={styles.dropdown_item_text}>{item.category}</Text>
@@ -20,7 +19,6 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
   const dropdownControl = () => {
     setDropdownIsOpen(!dropdownIsOpen);
   };
-  console.log(dropdownIsOpen);
 
   useEffect(() => {setFilteredList(list.filter((item)=>item.category.includes(searchInput)))},[searchInput])
   return (
@@ -29,7 +27,7 @@ const Dropwdown = ({ header, selected, list, selectedOnPress }) => {
       <View style={styles.selected}>
         <TextInput
           placeholder="Search product category..."
-          style={styles.dropdown_item_text}
+          style={styles.dropdown_input}
           onChangeText={setSearchInput}
         >
           {selected}

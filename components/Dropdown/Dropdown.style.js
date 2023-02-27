@@ -54,5 +54,11 @@ export default StyleSheet.create({
     color:"#ED6663",
     fontSize:17,
     
+  },
+  dropdown_input:{
+    color:"#ED6663",
+    fontSize:17,
+    width:device.width*0.5,
+    
   }
 });

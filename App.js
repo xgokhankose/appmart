@@ -8,9 +8,14 @@ import {
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
 import { getAuth } from "firebase/auth";
+import { Provider } from "react-redux";
+import { store } from "./redux";
+import useGetData from "./hooks/useGetData";
+
 
 export default function App() {
   const [isLogin, setIsLogin] = useState();
+ 
   
   useEffect(() => {
     getAuth().onAuthStateChanged((user) => {
@@ -28,8 +33,10 @@ export default function App() {
   }
 
   return (
+    <Provider store={store}>
     <NavigationContainer>
       {!isLogin ? <AuthStack /> : <Tabs />}
     </NavigationContainer>
+    </Provider>
   );
 }

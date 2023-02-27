@@ -20,20 +20,21 @@ import styles from "./addProduct.style";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Dropdown from "../../components/Dropdown";
-import categories from "../../categories.json"
+import categories from "../../categories.json";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [selected,setSelected]=useState("")
-  
-  const setSelectedFunc = (value) =>{
-    setSelected(value)
-  }
+  const [selected, setSelected] = useState("");
 
-
+  const setSelectedFunc = (value) => {
+    setSelected(value);
+  };
+  const setNameFunc = (value) => {
+    setName(value);
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -90,12 +91,18 @@ const AddProduct = () => {
         name: name,
         description: description,
         user: getAuth().currentUser.email,
-        category:selected,
+        category: selected,
+        createdAt: new Date(),
         picturePath: result[1],
+        isActive:true
       });
       console.log("Document written with ID: ", docRef.id);
       Alert.alert("Ürün başarıyla eklendi!");
       setIsUploading(false);
+      setName("");
+      setDescription("");
+      setSelected("");
+      setImage(null);
     } catch (error) {
       console.log(error);
       Alert.alert("Ürün eklenirken beklenmedik bir hata oluştu!");
@@ -113,14 +120,27 @@ const AddProduct = () => {
         contentContainerStyle={styles.scroll_container}
       >
         <View style={styles.main_container}>
-          <CustomInput onChangeText={setName} header={"Product name"} />
-          <Dropdown selectedOnPress={setSelectedFunc} selected={selected} list={categories}/>
+          <CustomInput
+            inputValue={name}
+            onChangeText={setName}
+            header={"Product name"}
+          />
+          <Dropdown
+            selectedOnPress={setSelected}
+            selected={selected}
+            list={categories}
+          />
           <CustomDescriptionInput
+            inputValue={description}
             onChangeText={setDescription}
             header={"Product description"}
           />
           <TouchableOpacity onPress={pickImage} style={styles.photoButton}>
-            {!!image ? <Text style={styles.photoButtonText}>Change product photo</Text>:<Text style={styles.photoButtonText}>Add product photo</Text>}
+            {!!image ? (
+              <Text style={styles.photoButtonText}>Change product photo</Text>
+            ) : (
+              <Text style={styles.photoButtonText}>Add product photo</Text>
+            )}
           </TouchableOpacity>
           {isUploading ? (
             <CustomButton

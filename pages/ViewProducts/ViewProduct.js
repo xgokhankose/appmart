@@ -1,9 +1,19 @@
-import { View, Text } from "react-native";
-
+import { useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 const ViewProducts = () => {
+  const list = useSelector((state) => state.userProducts.userProducts);
+  const flatlistTest = ({ item }) => {
+    return (
+      <View>
+        <Text>{item.name}</Text>
+      </View>
+    );
+  };
+
   return (
     <View>
-      <Text>View products</Text>
+      <FlatList data={list} renderItem={flatlistTest} keyExtractor={(item) => item.id} />
     </View>
   );
 };
