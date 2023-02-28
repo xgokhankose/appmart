@@ -5,11 +5,16 @@ import ProfileButtonRed from "../../components/ProfileButtonRed";
 import { getAuth, signOut } from "firebase/auth";
 import AddProduct from "../AddProduct";
 import { useDispatch, useSelector } from 'react-redux';
+import useGetData from "../../hooks/useGetData";
+import { setProducts } from '../../redux/userProductsSlice';
+
 
 
 const Profile = ({ navigation }) => {
 
-   
+  const { data } = useGetData('products');
+  const dispatch = useDispatch();
+  dispatch(setProducts(data));
 
   const currentUser = getAuth().currentUser;
 

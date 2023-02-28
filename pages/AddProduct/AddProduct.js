@@ -94,6 +94,7 @@ const AddProduct = () => {
         category: selected,
         createdAt: new Date(),
         picturePath: result[1],
+        productPicture: result[0],
         isActive:true
       });
       console.log("Document written with ID: ", docRef.id);
