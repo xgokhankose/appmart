@@ -8,7 +8,7 @@ import {
 import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
 
-function useGetData(category) {
+function useGetAllData(category) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 console.log(getAuth().currentUser.email)
@@ -18,7 +18,6 @@ console.log(getAuth().currentUser.email)
       const categoryCol = query(
         collection(db, category),
         where("isActive", "==", true),
-        where("user","==",getAuth().currentUser.email)
 
       );
       const querySnapshot = await getDocs(categoryCol);
@@ -42,4 +41,4 @@ console.log(getAuth().currentUser.email)
   return { data, loading };
 }
 
-export default useGetData;
+export default useGetAllData;

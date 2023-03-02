@@ -21,7 +21,9 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Dropdown from '../../components/Dropdown';
 import categories from '../../categories.json';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProduct } from '../../redux/userProductsSlice';
+import CustomDeleteButton from '../../components/CustomDeleteButton';
 
 const ProductEdit = ({ route }) => {
   const [name, setName] = useState('');
@@ -30,17 +32,21 @@ const ProductEdit = ({ route }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState('');
   const [product, setProduct] = useState('');
+  const [productIndex, setProductIndex] = useState('');
+
+  const dispatch = useDispatch();
+
+  const products = useSelector((state) => state.products);
 
   const list = useSelector((state) => state.userProducts.userProducts);
   if (product == '') {
-    list.forEach((item) => {
+    list.forEach((item, index) => {
       if (item.id === route.params.id) {
-        console.log("girdi")
+        console.log('girdi');
         setProduct(item);
-        setName(item.name)
-        setSelected(item.category)
-        setDescription(item.description)
-        console.log(name)
+        setName(item.name);
+        setSelected(item.category);
+        setDescription(item.description);
       }
     });
   }
@@ -90,25 +96,42 @@ const ProductEdit = ({ route }) => {
 
   const addData = async () => {
     setIsUploading(true);
+    const result = await uploadImage();
     try {
-      const result = await uploadImage();
-      const docRef = await addDoc(collection(db, 'products'), {
+      if (!!result[0]) {
+        const ref = doc(db, 'products', product.id);
+        await setDoc(ref, {
+          name: name,
+          description: description,
+          user: getAuth().currentUser.email,
+          category: selected,
+          createdAt: product.createdAt,
+          productPicture: result[0],
+          picturePath: result[1],
+          isActive: isActive,
+        });
+      } else {
+        const ref = doc(db, 'products', product.id);
+        await setDoc(ref, {
+          name: name,
+          description: description,
+          user: getAuth().currentUser.email,
+          category: selected,
+          createdAt: product.createdAt,
+          picturePath: product.picturePath,
+          productPicture: product.productPicture,
+          isActive: true,
+        });
+      }
+      const updatedProduct = {
+        ...product,
         name: name,
         description: description,
-        user: getAuth().currentUser.email,
         category: selected,
-        createdAt: new Date(),
-        picturePath: result[1],
-        productPicture: result[0],
-        isActive: true,
-      });
-      console.log('Document written with ID: ', docRef.id);
-      Alert.alert('Ürün başarıyla eklendi!');
+      }; // replace "price" with the property you want to update
+      dispatch(updateProduct({ id: product.id, updatedProduct }));
+      Alert.alert('Ürün başarıyla Güncellendi!');
       setIsUploading(false);
-      setName('');
-      setDescription('');
-      setSelected('');
-      setImage(null);
     } catch (error) {
       console.log(error);
       Alert.alert('Ürün eklenirken beklenmedik bir hata oluştu!');
@@ -144,8 +167,9 @@ const ProductEdit = ({ route }) => {
               title={<ActivityIndicator style={{ paddingTop: 8 }} size="large" color="yellow" />}
             />
           ) : (
-            <CustomButton onPress={addData} title={'Add product'} />
+            <CustomButton onPress={addData} title={'Update product'} />
           )}
+          <CustomDeleteButton onPress={null} title="Delete product" />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

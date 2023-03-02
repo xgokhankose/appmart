@@ -4,7 +4,7 @@ const device = Dimensions.get("window")
 export default StyleSheet.create({
     container:{
        width:device.width*0.6,
-       backgroundColor:"#3C2C3E",
+       backgroundColor:"#E6595F",
        height:device.height*0.05,
        alignItems:"center",
        justifyContent:"center",
@@ -16,7 +16,7 @@ export default StyleSheet.create({
     text:{
         fontFamily:"Nunito_700Bold",
         fontSize:18,
-        color:"#ED6663",
+        color:"#3C2C3E",
         textAlign:"center"
 
     }

@@ -1,4 +1,4 @@
-import { Image, SafeAreaView } from "react-native";
+import { Image, SafeAreaView,StatusBar } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,9 +14,10 @@ const MyTabs = () => {
       style={{ flex: 1, backgroundColor: "yellow " }}
       forceInset={{ top: "never" }}
     >
+    
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="ProfileScreen"
+        initialRouteName="HomeScreen"
       >
         <Tab.Screen
           options={{

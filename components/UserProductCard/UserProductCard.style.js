@@ -3,13 +3,13 @@ const device = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ED6663',
     padding: 20,
     margin: 5,
     borderRadius: 20,
+    flex:1
   },
   image: {
     width: device.width * 0.4,
@@ -25,7 +25,7 @@ export default StyleSheet.create({
     fontSize: 23,
   },
   category: {
-    fontFamily: 'Nuniton_400Regular',
+    fontFamily: 'Nunito_400Regular',
     fontSize: 17,
   },
   calendar: {

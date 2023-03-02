@@ -4,13 +4,17 @@ import { useSelector } from 'react-redux';
 import UserProductCard from '../../components/UserProductCard';
 const ViewUserProducts = () => {
   const list = useSelector((state) => state.userProducts.userProducts);
-  const flatlistTest = ({ item }) => {
+
+  
+  
+  console.log(list)
+  const productsRender = ({ item }) => {
     return <UserProductCard item={item}/>
   };
 
   return (
     <View style={{flex:1}}>
-      <FlatList data={list} renderItem={flatlistTest} keyExtractor={(item) => item.id} numColumns={2} />
+      <FlatList data={list} renderItem={productsRender} keyExtractor={(item) => item.id} numColumns={2} />
     </View>
   );
 };

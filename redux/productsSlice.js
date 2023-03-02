@@ -10,11 +10,11 @@ import { productsRef } from '../firebase';
 ); */
 
 const initialState = {
-  userProducts: [],
+  products: [],
 };
 
 const productsSlice = createSlice({
-  name: 'userProducts',
+  name: 'products',
   initialState,
   reducers: {
     changeDraftProductName: (state, action) => {
@@ -40,15 +40,15 @@ const productsSlice = createSlice({
     },
 
     setProducts: (state, action) => {
-      state.userProducts = action.payload;
+      state.products = action.payload;
     },
     updateProduct(state, action) {
       const { id, updatedProduct } = action.payload;
-      const productIndex = state.userProducts.findIndex((product) => product.id === id);
-      state.userProducts[productIndex] = updatedProduct;
+      const productIndex = state.products.findIndex((product) => product.id === id);
+      state.products[productIndex] = updatedProduct;
     },
     addProduct: (state, action) => {
-      state.userProducts.push(action.payload);
+      state.products.push(action.payload);
     }
   },
 });

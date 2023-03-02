@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { getAuth } from 'firebase/auth';
 import {
   KeyboardAvoidingView,
   SafeAreaView,
@@ -7,34 +7,31 @@ import {
   View,
   Alert,
   ActivityIndicator,
-} from "react-native";
-import CustomDescriptionInput from "../../components/CustomDescriptionInput";
-import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/CustomButton";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import { db, storage } from "../../firebase";
-import * as ImagePicker from "expo-image-picker";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+} from 'react-native';
+import CustomDescriptionInput from '../../components/CustomDescriptionInput';
+import CustomInput from '../../components/CustomInput';
+import CustomButton from '../../components/CustomButton';
+import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import * as ImagePicker from 'expo-image-picker';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import styles from "./addProduct.style";
-import { useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Dropdown from "../../components/Dropdown";
-import categories from "../../categories.json";
+import styles from './addProduct.style';
+import { useState } from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Dropdown from '../../components/Dropdown';
+import categories from '../../categories.json';
+import { addProduct } from '../../redux/userProductsSlice';
+import { useDispatch } from 'react-redux';
 
 const AddProduct = () => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
-  const setSelectedFunc = (value) => {
-    setSelected(value);
-  };
-  const setNameFunc = (value) => {
-    setName(value);
-  };
+  const dispatch = useDispatch();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,7 +48,7 @@ const AddProduct = () => {
 
   const uploadImage = async () => {
     if (!image) {
-      return ["", ""];
+      return ['', ''];
     }
 
     const blobImage = await new Promise((resolve, reject) => {
@@ -60,23 +57,19 @@ const AddProduct = () => {
         resolve(xhr.response);
       };
       xhr.onerror = function () {
-        reject(new TypeError("Network request failed"));
+        reject(new TypeError('Network request failed'));
       };
-      xhr.responseType = "blob";
-      xhr.open("GET", image, true);
+      xhr.responseType = 'blob';
+      xhr.open('GET', image, true);
       xhr.send(null);
     });
 
     const metadata = {
-      contentType: "image/jpeg",
+      contentType: 'image/jpeg',
     };
 
-    const storageRef = ref(storage, "Photos/" + Date.now());
-    const uploadTask = await uploadBytesResumable(
-      storageRef,
-      blobImage,
-      metadata
-    );
+    const storageRef = ref(storage, 'Photos/' + Date.now());
+    const uploadTask = await uploadBytesResumable(storageRef, blobImage, metadata);
     const url = await getDownloadURL(uploadTask.ref);
     const path = uploadTask.metadata.fullPath;
 
@@ -87,7 +80,7 @@ const AddProduct = () => {
     setIsUploading(true);
     try {
       const result = await uploadImage();
-      const docRef = await addDoc(collection(db, "products"), {
+      const docRef = await addDoc(collection(db, 'products'), {
         name: name,
         description: description,
         user: getAuth().currentUser.email,
@@ -95,46 +88,51 @@ const AddProduct = () => {
         createdAt: new Date(),
         picturePath: result[1],
         productPicture: result[0],
-        isActive:true
+        isActive: true,
       });
-      console.log("Document written with ID: ", docRef.id);
-      Alert.alert("Ürün başarıyla eklendi!");
+      console.log('Document written with ID: ', docRef.id);
+      const timestamp = Date.now();
+      const secondsSinceEpoch = Math.floor(timestamp / 1000);
+      const nanosecondsSinceEpoch = (timestamp % 1000) * 1e6;
+      dispatch(
+        addProduct({
+          name: name,
+          description: description,
+          user: getAuth().currentUser.email,
+          category: selected,
+          createdAt: { secondsSinceEpoch, nanosecondsSinceEpoch },
+          picturePath: result[1],
+          productPicture: result[0],
+          isActive: true,
+        })
+      );
+      Alert.alert('Ürün başarıyla eklendi!');
       setIsUploading(false);
-      setName("");
-      setDescription("");
-      setSelected("");
+      setName('');
+      setDescription('');
+      setSelected('');
       setImage(null);
     } catch (error) {
       console.log(error);
-      Alert.alert("Ürün eklenirken beklenmedik bir hata oluştu!");
+      Alert.alert('Ürün eklenirken beklenmedik bir hata oluştu!');
       setIsUploading(false);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={styles.container}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scroll_container}
-      >
+        contentContainerStyle={styles.scroll_container}>
         <View style={styles.main_container}>
-          <CustomInput
-            inputValue={name}
-            onChangeText={setName}
-            header={"Product name"}
-          />
-          <Dropdown
-            selectedOnPress={setSelected}
-            selected={selected}
-            list={categories}
-          />
+          <CustomInput inputValue={name} onChangeText={setName} header={'Product name'} />
+          <Dropdown selectedOnPress={setSelected} selected={selected} list={categories} />
           <CustomDescriptionInput
             inputValue={description}
             onChangeText={setDescription}
-            header={"Product description"}
+            header={'Product description'}
           />
           <TouchableOpacity onPress={pickImage} style={styles.photoButton}>
             {!!image ? (
@@ -146,16 +144,10 @@ const AddProduct = () => {
           {isUploading ? (
             <CustomButton
               onPress={addData}
-              title={
-                <ActivityIndicator
-                  style={{ paddingTop: 8 }}
-                  size="large"
-                  color="yellow"
-                />
-              }
+              title={<ActivityIndicator style={{ paddingTop: 8 }} size="large" color="yellow" />}
             />
           ) : (
-            <CustomButton onPress={addData} title={"Add product"} />
+            <CustomButton onPress={addData} title={'Add product'} />
           )}
         </View>
       </ScrollView>

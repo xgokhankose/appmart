@@ -51,12 +51,12 @@ export default StyleSheet.create({
     height:40,
   },
   dropdown_item_text:{
-    color:"#ED6663",
+    color:"#3C2C3E",
     fontSize:17,
     
   },
   dropdown_input:{
-    color:"#ED6663",
+    color:"#3C2C3E",
     fontSize:17,
     width:device.width*0.5,
     
