@@ -25,7 +25,6 @@ const Home = () => {
 
 
   const categoriesRender = ({ item }) => {
-    console.log(item.name)
     return (
       <TouchableOpacity onPress={()=>filteredByCategory(item.category)} style={styles.categories_button}>
         <Text style={styles.categories_button_text}>{item.category}</Text>

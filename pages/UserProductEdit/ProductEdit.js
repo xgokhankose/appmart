@@ -42,7 +42,6 @@ const ProductEdit = ({ route }) => {
   if (product == '') {
     list.forEach((item, index) => {
       if (item.id === route.params.id) {
-        console.log('girdi');
         setProduct(item);
         setName(item.name);
         setSelected(item.category);

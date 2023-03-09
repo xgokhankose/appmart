@@ -11,7 +11,6 @@ import { getAuth } from "firebase/auth";
 function useGetAllData(category) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-console.log(getAuth().currentUser.email)
   const getData = async () => {
     try {
 

@@ -7,7 +7,6 @@ const ViewUserProducts = () => {
 
   
   
-  console.log(list)
   const productsRender = ({ item }) => {
     return <UserProductCard item={item}/>
   };

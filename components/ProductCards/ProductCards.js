@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './ProductCards.style';
 const ProductCards = ({ item }) => {
-  console.log(item);
   return (
     <View style={[styles.container, styles.shadowProp]}>
       <Image style={styles.image} source={{ uri: item.productPicture }} />
