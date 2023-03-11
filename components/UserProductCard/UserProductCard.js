@@ -3,9 +3,10 @@ import styles from './UserProductCard.style';
 import { useNavigation } from '@react-navigation/native';
 
 const UserProductCard = ({ item }) => {
+  console.log(item.images[0].url);
   const navigation = useNavigation();
   const navigateProductEdit = (id) => {
-    navigation.navigate('ProductEditPage',{id});
+    navigation.navigate('ProductEditPage', { id });
   };
 
   var date = new Date(item.createdAt.seconds * 1000);
@@ -14,7 +15,7 @@ const UserProductCard = ({ item }) => {
   var dataYear = date.getFullYear();
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: item.productPicture }} />
+      <Image style={styles.image} source={{ uri: item.images[0].url }} />
       <View style={styles.inner_mid_container}>
         <Text numberOfLines={1} style={styles.name}>
           {item.name}
