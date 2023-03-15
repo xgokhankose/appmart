@@ -27,6 +27,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Loading from '../../components/Loading';
 import { FlatList } from 'react-native-gesture-handler';
+import AddProductImageRender from '../../components/AddProductImageRender';
 
 const AddProduct = () => {
   const [name, setName] = useState('');
@@ -34,13 +35,25 @@ const AddProduct = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState('');
   const [imageObjects, setImageObjects] = useState([]);
+  const [valueFromChild, setValueFromChild] = useState('');
 
   const dispatch = useDispatch();
 
-  const imageRender = ({ item }) => {
-    console.log(item[0].url);
+  const deleteImage = (value) => {
+    let result = [];
+    imageObjects.map((v, i) => {
 
-    return <Image style={styles.photo} source={{ uri: item[0].url }} />;
+      if (value.path != v[0].path) {
+        value[0]=value
+        result.push(value);
+      }
+    });
+    setImageObjects(result);
+
+  };
+
+  const imageRender = ({ item }) => {
+    return <AddProductImageRender onPressDelete={deleteImage} item={item[0]} />;
   };
 
   const pickImage = async () => {
@@ -60,7 +73,6 @@ const AddProduct = () => {
 
     setIsUploading(true);
     const imageRefs = [];
-    console.log(image);
 
     try {
       const blobImage = await new Promise((resolve, reject) => {
@@ -85,7 +97,6 @@ const AddProduct = () => {
       const uploadTask = await uploadBytesResumable(imageRef, blobImage, metadata);
       const url = await getDownloadURL(uploadTask.ref);
       const path = uploadTask.metadata.fullPath;
-      console.log(url, path);
 
       imageRefs.push({ path: path, url: url });
       setImageObjects([...imageObjects, imageRefs]);
@@ -94,7 +105,6 @@ const AddProduct = () => {
       setIsUploading(false);
     }
 
-    console.log(imageRefs);
     setIsUploading(false);
   };
 
@@ -170,6 +180,7 @@ const AddProduct = () => {
             <Image style={styles.add} source={require('../../assets/add.png')} />
             <Text style={styles.photoButtonText}>Add photo</Text>
           </TouchableOpacity>
+
           {isUploading ? (
             <CustomButton
               onPress={addData}

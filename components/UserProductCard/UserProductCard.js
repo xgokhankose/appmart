@@ -3,7 +3,6 @@ import styles from './UserProductCard.style';
 import { useNavigation } from '@react-navigation/native';
 
 const UserProductCard = ({ item }) => {
-  console.log(item.images[0].url);
   const navigation = useNavigation();
   const navigateProductEdit = (id) => {
     navigation.navigate('ProductEditPage', { id });
@@ -31,7 +30,7 @@ const UserProductCard = ({ item }) => {
             {dataDay}.{dataMonth}.{dataYear}{' '}
           </Text>
         </View>
-        <TouchableOpacity onPress={() => navigateProductEdit(item.id)} style={styles.button}>
+        <TouchableOpacity  onPress={() => navigateProductEdit(item.id)} style={styles.button}>
           <Text style={styles.button_text}>Edit</Text>
         </TouchableOpacity>
       </View>

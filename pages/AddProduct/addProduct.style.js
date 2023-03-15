@@ -31,8 +31,9 @@ export default StyleSheet.create({
     width: 25,
     height: 25,
   },
-  photo:{
-    width:100,
-    height:100,
-  }
+  photo: {
+    width: 100,
+    height: 100,
+  },
+  
 });

@@ -28,7 +28,6 @@ const Login = ({navigation}) => {
     signInWithEmailAndPassword(authentication, email, password)
       .then((userCredential) => {
         console.log("account login !");
-        console.log(userCredential.user.displayName)
 
       })
       .catch((error) => {
