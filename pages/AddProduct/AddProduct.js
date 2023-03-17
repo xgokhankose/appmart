@@ -125,7 +125,7 @@ const AddProduct = () => {
         user: getAuth().currentUser.email,
         category: selected,
         createdAt: new Date(),
-        images: imageObjects,
+        images: imageObjects[0],
         isActive: true,
       });
       console.log('Document written with ID: ', docRef.id);
