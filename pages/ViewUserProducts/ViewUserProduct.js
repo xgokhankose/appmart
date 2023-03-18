@@ -6,7 +6,6 @@ const ViewUserProducts = () => {
   const list = useSelector((state) => state.userProducts.userProducts);
 
   
-  
   const productsRender = ({ item }) => {
     return <UserProductCard item={item}/>
   };

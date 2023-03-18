@@ -19,10 +19,16 @@ export default StyleSheet.create({
   photoButton: {
     marginTop: 10,
     marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   photoButtonText: {
-    color: "#ED6663",
-    fontFamily: "Nunito_700Bold",
+    color: '#ED6663',
+    fontFamily: 'Nunito_700Bold',
     fontSize: 18,
+  },
+  add: {
+    width: 25,
+    height: 25,
   },
 });

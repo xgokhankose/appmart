@@ -3,7 +3,7 @@ import styles from './ProductCards.style';
 const ProductCards = ({ item }) => {
   return (
     <View style={[styles.container, styles.shadowProp]}>
-      <Image style={styles.image} source={{ uri: item.productPicture }} />
+      <Image style={styles.image} source={{ uri: item.images[0].url }} />
       <View style={styles.inner_container}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={styles.bottom_container}>

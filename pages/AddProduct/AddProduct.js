@@ -139,7 +139,7 @@ const AddProduct = () => {
           user: getAuth().currentUser.email,
           category: selected,
           createdAt: { secondsSinceEpoch, nanosecondsSinceEpoch },
-          images: imageObjects,
+          images: imageObjects[0],
           isActive: true,
         })
       );

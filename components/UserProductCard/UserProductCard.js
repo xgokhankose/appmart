@@ -14,7 +14,10 @@ const UserProductCard = ({ item }) => {
   var dataYear = date.getFullYear();
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: item.images[0].url }} />
+      {item.images.length != 0 ? (
+        <Image style={styles.image} source={{ uri: item.images[0].url }} />
+      ) : null}
+
       <View style={styles.inner_mid_container}>
         <Text numberOfLines={1} style={styles.name}>
           {item.name}
@@ -30,7 +33,7 @@ const UserProductCard = ({ item }) => {
             {dataDay}.{dataMonth}.{dataYear}{' '}
           </Text>
         </View>
-        <TouchableOpacity  onPress={() => navigateProductEdit(item.id)} style={styles.button}>
+        <TouchableOpacity onPress={() => navigateProductEdit(item.id)} style={styles.button}>
           <Text style={styles.button_text}>Edit</Text>
         </TouchableOpacity>
       </View>

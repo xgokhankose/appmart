@@ -7,6 +7,8 @@ import {
   View,
   Alert,
   ActivityIndicator,
+  FlatList,
+  Image
 } from 'react-native';
 import CustomDescriptionInput from '../../components/CustomDescriptionInput';
 import CustomInput from '../../components/CustomInput';
@@ -24,6 +26,8 @@ import categories from '../../categories.json';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProduct } from '../../redux/userProductsSlice';
 import CustomDeleteButton from '../../components/CustomDeleteButton';
+import AddProductImageRender from '../../components/AddProductImageRender';
+import Loading from '../../components/Loading';
 
 const ProductEdit = ({ route }) => {
   const [name, setName] = useState('');
@@ -32,7 +36,11 @@ const ProductEdit = ({ route }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState('');
   const [product, setProduct] = useState('');
-  const [productIndex, setProductIndex] = useState('');
+  const [imageObjects, setImageObjects] = useState([]);
+  const [isActive, setIsActive] = useState(true);
+
+
+  
 
   const dispatch = useDispatch();
 
@@ -46,58 +54,92 @@ const ProductEdit = ({ route }) => {
         setName(item.name);
         setSelected(item.category);
         setDescription(item.description);
+        setImageObjects(item.images)
       }
     });
   }
+
+  const deleteImage = (value) => {
+    let result = [];
+    imageObjects.map((v, i) => {
+
+      if (value.path != v.path) {
+        value[0]=value
+        result.push(value);
+      }
+    });
+    setImageObjects(result);
+
+  };
+
+  const imageRender = ({ item }) => {
+   
+    return <AddProductImageRender onPressDelete={deleteImage} item={item} />;
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [9, 16],
+      aspect: [1, 1],
       quality: 1,
     });
-
-    if (!result.canceled) {
-      setImage(result.uri);
-    }
+    return result;
   };
 
-  const uploadImage = async () => {
-    if (!image) {
-      return ['', ''];
+  const uploadImage = async (image) => {
+    if (imageObjects.length == 3) {
+      return console.log('max limit');
     }
 
-    const blobImage = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
+    setIsUploading(true);
+    const imageRefs = [];
+
+    try {
+      const blobImage = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function () {
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', image[0].uri, true);
+        xhr.send(null);
+      });
+
+      const metadata = {
+        contentType: 'image/jpeg',
       };
-      xhr.onerror = function () {
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', image, true);
-      xhr.send(null);
-    });
 
-    const metadata = {
-      contentType: 'image/jpeg',
-    };
+      const imageRef = ref(storage, 'Photos/' + Date.now());
 
-    const storageRef = ref(storage, 'Photos/' + Date.now());
-    const uploadTask = await uploadBytesResumable(storageRef, blobImage, metadata);
-    const url = await getDownloadURL(uploadTask.ref);
-    const path = uploadTask.metadata.fullPath;
+      const uploadTask = await uploadBytesResumable(imageRef, blobImage, metadata);
+      const url = await getDownloadURL(uploadTask.ref);
+      const path = uploadTask.metadata.fullPath;
 
-    return [url, path];
+      imageRefs.push({ path: path, url: url });
+      setImageObjects([...imageObjects, imageRefs[0]]);
+    } catch (error) {
+      console.log('Error uploading image:', error);
+      setIsUploading(false);
+    }
+    setIsUploading(false);
+  };
+
+  const handleUploadImages = async () => {
+    const image = await pickImage();
+
+    if (!image.didCancel) {
+      uploadImage(image.assets);
+    }
   };
 
   const addData = async () => {
     setIsUploading(true);
-    const result = await uploadImage();
     try {
-      if (!!result[0]) {
+     
         const ref = doc(db, 'products', product.id);
         await setDoc(ref, {
           name: name,
@@ -105,28 +147,16 @@ const ProductEdit = ({ route }) => {
           user: getAuth().currentUser.email,
           category: selected,
           createdAt: product.createdAt,
-          productPicture: result[0],
-          picturePath: result[1],
+          images:imageObjects,
           isActive: isActive,
         });
-      } else {
-        const ref = doc(db, 'products', product.id);
-        await setDoc(ref, {
-          name: name,
-          description: description,
-          user: getAuth().currentUser.email,
-          category: selected,
-          createdAt: product.createdAt,
-          picturePath: product.picturePath,
-          productPicture: product.productPicture,
-          isActive: true,
-        });
-      }
+     
       const updatedProduct = {
         ...product,
         name: name,
         description: description,
         category: selected,
+        images:imageObjects,
       }; // replace "price" with the property you want to update
       dispatch(updateProduct({ id: product.id, updatedProduct }));
       Alert.alert('Ürün başarıyla Güncellendi!');
@@ -138,13 +168,21 @@ const ProductEdit = ({ route }) => {
     }
   };
 
+  if (isUploading) {
+    return <Loading />;
+  }
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scroll_container}>
+        contentContainerStyle={styles.scroll_container}
+        bounces={false}
+        >
+        
         <View style={styles.main_container}>
           <CustomInput inputValue={name} onChangeText={setName} header={'Product name'} />
           <Dropdown selectedOnPress={setSelected} selected={selected} list={categories} />
@@ -153,12 +191,10 @@ const ProductEdit = ({ route }) => {
             onChangeText={setDescription}
             header={'Product description'}
           />
-          <TouchableOpacity onPress={pickImage} style={styles.photoButton}>
-            {!!image ? (
-              <Text style={styles.photoButtonText}>Change product photo</Text>
-            ) : (
-              <Text style={styles.photoButtonText}>Add new product photo</Text>
-            )}
+          <FlatList horizontal={true} data={imageObjects} renderItem={imageRender} />
+          <TouchableOpacity onPress={handleUploadImages} style={styles.photoButton}>
+            <Image style={styles.add} source={require('../../assets/add.png')} />
+            <Text style={styles.photoButtonText}>Add photo</Text>
           </TouchableOpacity>
           {isUploading ? (
             <CustomButton
