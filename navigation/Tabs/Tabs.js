@@ -17,7 +17,7 @@ const MyTabs = () => {
     
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="ProfileScreen"
+        initialRouteName="HomeScreen"
       >
         <Tab.Screen
           options={{

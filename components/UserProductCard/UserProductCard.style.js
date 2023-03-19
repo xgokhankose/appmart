@@ -6,10 +6,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ED6663',
-    padding: 20,
+    padding: 15,
     margin: 5,
     borderRadius: 20,
-    flex:1
   },
   image: {
     width: device.width * 0.4,
