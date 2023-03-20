@@ -157,7 +157,7 @@ const ProductEdit = ({ route }) => {
         description: description,
         category: selected,
         images:imageObjects,
-      }; // replace "price" with the property you want to update
+      }; 
       dispatch(updateProduct({ id: product.id, updatedProduct }));
       Alert.alert('Ürün başarıyla Güncellendi!');
       setIsUploading(false);

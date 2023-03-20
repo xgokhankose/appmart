@@ -10,10 +10,10 @@ export default StyleSheet.create({
   top_container: {
     justifyContent: "flex-end",
     alignItems: 'center',
-    backgroundColor: '#3C2C3E',
-    borderBottomLeftRadius: 35,
-    borderBottomRightRadius: 35,
-    height:device.height*0.35
+    backgroundColor: '#E8E2E2',
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    height:device.height*0.22
   },
   search_bar: {
     flexDirection: 'row',
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     fontFamily: 'Nunito_700Bold',
     fontSize: 35,
     marginTop: 80,
-    color: '#fff',
+    color: '#ED6663',
   },
   categories_button: {
     margin: 2,

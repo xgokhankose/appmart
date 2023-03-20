@@ -15,9 +15,6 @@ const AddProductImageRender = ({ item, onPressDelete }) => {
   return (
     <View style={styles.container}>
       <View style={styles.icon_container}>
-        <TouchableOpacity>
-          <Image style={styles.icon} source={require('../../assets/edit-image.png')} />
-        </TouchableOpacity>
         <TouchableOpacity onPress={handleButtonClick}>
           <Image style={styles.icon} source={require('../../assets/delete.png')} />
         </TouchableOpacity>

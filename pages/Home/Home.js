@@ -3,8 +3,6 @@ import {
   Text,
   TextInput,
   Image,
-  StatusBar,
-  useState,
   FlatList,
   SafeAreaView,
 } from 'react-native';
@@ -15,25 +13,32 @@ import { setProducts } from '../../redux/productsSlice';
 import styles from './Home.style';
 import categories from '../../categories.json';
 import ProductCards from '../../components/ProductCards';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
   const { data } = useGetAllData('products');
 
+  const navigation = useNavigation();
+
+  const navigateProductDetail = (item) => {
+    navigation.navigate('ProductDetailPage', { item });
+  };
+
   const dispatch = useDispatch();
   dispatch(setProducts(data));
 
-
-
   const categoriesRender = ({ item }) => {
     return (
-      <TouchableOpacity onPress={()=>filteredByCategory(item.category)} style={styles.categories_button}>
+      <TouchableOpacity
+        onPress={() => filteredByCategory(item.category)}
+        style={styles.categories_button}>
         <Text style={styles.categories_button_text}>{item.category}</Text>
       </TouchableOpacity>
     );
   };
 
   const productsRender = ({ item }) => {
-    return <ProductCards item={item} />;
+    return <ProductCards item={item} onPress={() => navigateProductDetail(item)} />;
   };
 
   return (
@@ -68,7 +73,6 @@ const Home = () => {
                 data={categories}
                 renderItem={categoriesRender}
                 showsVerticalScrollIndicator={false}
-
               />
             </View>
           </>

@@ -35,15 +35,16 @@ export default StyleSheet.create({
     fontFamily: 'Nunito_400Regular',
     fontSize: 21,
     color: 'black',
+    maxWidth: device.width * 0.35,
   },
   category: {
     fontSize: 14,
-    fontFamily:"Nunito_700Bold",
-    color:"#ED6663"
+    fontFamily: 'Nunito_700Bold',
+    color: '#ED6663',
   },
   inner_container: {
     justifyContent: 'center',
-    height:80,
-    paddingLeft:10
+    height: 80,
+    paddingLeft: 10,
   },
 });
