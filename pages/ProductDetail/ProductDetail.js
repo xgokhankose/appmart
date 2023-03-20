@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import styles from './ProductDetail.style';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProductDetail = ({ route }) => {
+  const [focus, setFocus] = useState(0);
+
   const navigation = useNavigation();
 
   const imagesList = (data) => {
     return (
-      <TouchableOpacity onPress={null} style={styles.mini_image_container}>
+      <TouchableOpacity
+        onPress={() => setFocus(data.index)}
+        style={[
+          styles.mini_image_container,
+          data.index == focus ? { borderColor: '#ED6663' } : { borderColor: '#F2F2F2' },
+        ]}>
         <Image style={styles.mini_image} source={{ uri: data.item.url }} />
       </TouchableOpacity>
     );
@@ -29,7 +37,7 @@ const ProductDetail = ({ route }) => {
       </View>
       <View style={styles.image_container}>
         {!!route.params.item.images[0] ? (
-          <Image style={styles.image} source={{ uri: route.params.item.images[0].url }} />
+          <Image style={styles.image} source={{ uri: route.params.item.images[focus].url }} />
         ) : null}
         <FlatList
           bounces={false}
@@ -45,7 +53,7 @@ const ProductDetail = ({ route }) => {
       <View style={styles.button_container}>
         <TouchableOpacity style={styles.message_button}>
           <Text style={styles.message_button_title}>Contact the trader</Text>
-          <Image style={styles.icon} source={require("../../assets/messenger.png")} />
+          <Image style={styles.icon} source={require('../../assets/messenger.png')} />
         </TouchableOpacity>
       </View>
     </ScrollView>

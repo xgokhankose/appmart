@@ -53,7 +53,6 @@ export default StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 20,
     borderRadius: 6,
-    borderColor: '#ED6663',
   },
   description: {
     fontSize: 18,
