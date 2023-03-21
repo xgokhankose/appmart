@@ -24,14 +24,13 @@ export default StyleSheet.create({
   titles_container: {
     width: device.width,
     paddingTop: 10,
-    paddingLeft: 30,
+    paddingHorizontal: 30,
     paddingBottom: 20,
   },
   category: {
     fontSize: 20,
     fontFamily: 'Nunito_700Bold',
     color: '#606060',
-    marginTop: 7,
   },
   image: {
     width: device.width * 0.8,
@@ -70,7 +69,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     height: 50,
     borderRadius: 15,
-    flexDirection:"row"
+    flexDirection: 'row',
   },
   button_container: {
     justifyContent: 'center',
@@ -81,6 +80,17 @@ export default StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Nunito_700Bold',
     color: '#fff',
-    marginRight:5
+    marginRight: 5,
+  },
+  titles_inner_container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:"space-between"
+  },
+  date: {
+    fontSize: 14,
+    fontFamily: 'Nunito_700Bold',
+    color: '#606060',
+    marginLeft: 10,
   },
 });

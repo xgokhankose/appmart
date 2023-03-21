@@ -5,9 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProductDetail = ({ route }) => {
+  console.log(route);
   const [focus, setFocus] = useState(0);
 
   const navigation = useNavigation();
+
+  const navigateChat = () =>{
+    navigation.navigate("ChatPage")
+  }
+
+  var date = new Date(route.params.item.createdAt.seconds * 1000);
+  var dataMonth = date.getMonth();
+  var dataDay = date.getDate();
+  var dataYear = date.getFullYear();
 
   const imagesList = (data) => {
     return (
@@ -33,7 +43,12 @@ const ProductDetail = ({ route }) => {
       </View>
       <View style={styles.titles_container}>
         <Text style={styles.name}>{route.params.item.name}</Text>
-        <Text style={styles.category}>{route.params.item.category}</Text>
+        <View style={styles.titles_inner_container}>
+          <Text style={styles.category}>{route.params.item.category}</Text>
+          <Text style={styles.date}>
+            {dataDay}.{dataMonth}.{dataYear}
+          </Text>
+        </View>
       </View>
       <View style={styles.image_container}>
         {!!route.params.item.images[0] ? (
@@ -51,7 +66,7 @@ const ProductDetail = ({ route }) => {
         <Text style={styles.description}>{route.params.item.description}</Text>
       </View>
       <View style={styles.button_container}>
-        <TouchableOpacity style={styles.message_button}>
+        <TouchableOpacity onPress={navigateChat} style={styles.message_button}>
           <Text style={styles.message_button_title}>Contact the trader</Text>
           <Image style={styles.icon} source={require('../../assets/messenger.png')} />
         </TouchableOpacity>

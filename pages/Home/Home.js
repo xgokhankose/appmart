@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  FlatList,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, TextInput, Image, FlatList, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import useGetAllData from '../../hooks/useGetAllData';
