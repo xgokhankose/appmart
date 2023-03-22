@@ -2,7 +2,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, Image } from 'react-native'
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
 
-const Chat = () => {
+const Chat = ({route}) => {
   const navigation = useNavigation();
 
   return (

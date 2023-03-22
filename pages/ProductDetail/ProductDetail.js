@@ -3,6 +3,9 @@ import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import styles from './ProductDetail.style';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { doc, setDoc, addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import { getAuth } from 'firebase/auth';
 
 const ProductDetail = ({ route }) => {
   console.log(route);
@@ -10,9 +13,29 @@ const ProductDetail = ({ route }) => {
 
   const navigation = useNavigation();
 
-  const navigateChat = () =>{
-    navigation.navigate("ChatPage")
-  }
+  const handleContactTrader = async () => {
+    const chatsRef = collection(db, 'chats');
+    const q = query(
+      chatsRef,
+      where('users.sender', '==', getAuth().currentUser.email),
+      where('users.receiver', '==', route.params.item.user)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.size == 0) {
+      const chatRef = await addDoc(collection(db, 'chats'), {
+        users: { sender: getAuth().currentUser.email, receiver: route.params.item.user },
+        messages: [],
+      });
+
+      const chatId = chatRef.id;
+      navigation.navigate('ChatPage', { chatId });
+    } else {
+      var chatId = querySnapshot.docs[0].id;
+      navigation.navigate('ChatPage', { chatId });
+    }
+  };
 
   var date = new Date(route.params.item.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
@@ -66,7 +89,7 @@ const ProductDetail = ({ route }) => {
         <Text style={styles.description}>{route.params.item.description}</Text>
       </View>
       <View style={styles.button_container}>
-        <TouchableOpacity onPress={navigateChat} style={styles.message_button}>
+        <TouchableOpacity onPress={handleContactTrader} style={styles.message_button}>
           <Text style={styles.message_button_title}>Contact the trader</Text>
           <Image style={styles.icon} source={require('../../assets/messenger.png')} />
         </TouchableOpacity>
