@@ -8,7 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   FlatList,
-  Image
+  Image,
 } from 'react-native';
 import CustomDescriptionInput from '../../components/CustomDescriptionInput';
 import CustomInput from '../../components/CustomInput';
@@ -39,9 +39,6 @@ const ProductEdit = ({ route }) => {
   const [imageObjects, setImageObjects] = useState([]);
   const [isActive, setIsActive] = useState(true);
 
-
-  
-
   const dispatch = useDispatch();
 
   const products = useSelector((state) => state.products);
@@ -54,7 +51,7 @@ const ProductEdit = ({ route }) => {
         setName(item.name);
         setSelected(item.category);
         setDescription(item.description);
-        setImageObjects(item.images)
+        setImageObjects(item.images);
       }
     });
   }
@@ -62,18 +59,15 @@ const ProductEdit = ({ route }) => {
   const deleteImage = (value) => {
     let result = [];
     imageObjects.map((v, i) => {
-
       if (value.path != v.path) {
-        value[0]=value
+        value[0] = value;
         result.push(value);
       }
     });
     setImageObjects(result);
-
   };
 
   const imageRender = ({ item }) => {
-   
     return <AddProductImageRender onPressDelete={deleteImage} item={item} />;
   };
 
@@ -139,25 +133,25 @@ const ProductEdit = ({ route }) => {
   const addData = async () => {
     setIsUploading(true);
     try {
-     
-        const ref = doc(db, 'products', product.id);
-        await setDoc(ref, {
-          name: name,
-          description: description,
-          user: getAuth().currentUser.email,
-          category: selected,
-          createdAt: product.createdAt,
-          images:imageObjects,
-          isActive: isActive,
-        });
-     
+      const ref = doc(db, 'products', product.id);
+      await setDoc(ref, {
+        name: name,
+        description: description,
+        user: getAuth().currentUser.email,
+        userName: getAuth().currentUser.displayName,
+        category: selected,
+        createdAt: product.createdAt,
+        images: imageObjects,
+        isActive: isActive,
+      });
+
       const updatedProduct = {
         ...product,
         name: name,
         description: description,
         category: selected,
-        images:imageObjects,
-      }; 
+        images: imageObjects,
+      };
       dispatch(updateProduct({ id: product.id, updatedProduct }));
       Alert.alert('Ürün başarıyla Güncellendi!');
       setIsUploading(false);
@@ -172,7 +166,6 @@ const ProductEdit = ({ route }) => {
     return <Loading />;
   }
 
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -180,9 +173,7 @@ const ProductEdit = ({ route }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scroll_container}
-        bounces={false}
-        >
-        
+        bounces={false}>
         <View style={styles.main_container}>
           <CustomInput inputValue={name} onChangeText={setName} header={'Product name'} />
           <Dropdown selectedOnPress={setSelected} selected={selected} list={categories} />

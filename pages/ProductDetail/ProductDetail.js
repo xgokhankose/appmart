@@ -8,17 +8,18 @@ import { db, storage } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 
 const ProductDetail = ({ route }) => {
-  console.log(route);
   const [focus, setFocus] = useState(0);
 
   const navigation = useNavigation();
 
   const handleContactTrader = async () => {
     const chatsRef = collection(db, 'chats');
+
     const q = query(
       chatsRef,
       where('users.sender', '==', getAuth().currentUser.email),
-      where('users.receiver', '==', route.params.item.user)
+      where('users.receiver', '==', route.params.item.user),
+      where('productId', '==', route.params.item.id)
     );
 
     const querySnapshot = await getDocs(q);
@@ -26,14 +27,23 @@ const ProductDetail = ({ route }) => {
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
         users: { sender: getAuth().currentUser.email, receiver: route.params.item.user },
+        productId: route.params.item.id,
         messages: [],
       });
 
       const chatId = chatRef.id;
-      navigation.navigate('ChatPage', { chatId });
+      navigation.navigate('ChatPage', {
+        chatId: chatId,
+        productPhoto: route.params.item.images[0].url,
+        receiver: route.params.item.userName,
+      });
     } else {
       var chatId = querySnapshot.docs[0].id;
-      navigation.navigate('ChatPage', { chatId });
+      navigation.navigate('ChatPage', {
+        chatId: chatId,
+        productPhoto: route.params.item.images[0].url,
+        receiver: route.params.item.userName,
+      });
     }
   };
 
