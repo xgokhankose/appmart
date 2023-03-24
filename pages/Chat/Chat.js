@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
@@ -25,14 +26,65 @@ import {
 import { db } from '../../firebase';
 import Message from '../../components/Message';
 import { getAuth } from 'firebase/auth';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import PhotoMessage from '../../components/PhotoMessage';
 
 const Chat = ({ route }) => {
   const { chatId } = route.params;
 
   const [messages, setMessages] = useState('');
   const [message, setMessage] = useState('');
+  const [image, setImage] = useState(null);
+  const [photoUploading, setPhotoUploading] = useState(false);
 
   const flatListRef = useRef(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [9, 16],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.uri);
+      setImage(result.uri);
+      console.log(!!image);
+    }
+  };
+
+  const uploadImage = async () => {
+    if (image == null) {
+      return console.log('empty');
+    }
+
+    const blobImage = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', image, true);
+      xhr.send(null);
+    });
+
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+
+    const storageRef = ref(storage, 'Photos/' + Date.now());
+    const uploadTask = await uploadBytesResumable(storageRef, blobImage, metadata);
+    const url = await getDownloadURL(uploadTask.ref);
+    const path = uploadTask.metadata.fullPath;
+
+    return [url, path];
+  };
 
   const handleSend = () => {
     if (message == '') {
@@ -53,8 +105,48 @@ const Chat = ({ route }) => {
       });
   };
 
+  const handleSendPhoto = async () => {
+    setPhotoUploading(true);
+    const result = await uploadImage();
+    console.log(result[0]);
+    setMessage('');
+
+    const myDocRef = doc(db, 'chats', chatId);
+    const valueToAdd = {
+      url: result[0],
+      path: result[1],
+      date: Date.now(),
+      sender: getAuth().currentUser.email,
+    };
+    updateDoc(myDocRef, {
+      messages: arrayUnion(valueToAdd),
+    })
+      .then(() => {
+        setPhotoUploading(false);
+
+        console.log('Document photo updated successfully!');
+        setImage(null);
+      })
+      .catch((error) => {
+        console.error('Error updating document: ', error);
+        setPhotoUploading(false);
+      });
+  };
+
   const messageItems = ({ item }) => {
-    return <Message item={item} />;
+    console.log(item.message);
+    console.log(item.url);
+
+    if (!!item.message) {
+      return <Message item={item} />;
+    } else {
+      return <PhotoMessage item={item} />;
+    }
+    /*  if(item.message != "" ){
+      return <Message item={item}
+    }else{
+      return <Message item={item}  
+    }    */
   };
   const navigation = useNavigation();
 
@@ -62,7 +154,8 @@ const Chat = ({ route }) => {
     const chatDoc = doc(db, 'chats', chatId);
     const unsubscribe = onSnapshot(chatDoc, (doc) => {
       var data = doc.data();
-      setMessages(data.messages);
+      const messsagesData = data.messages.reverse();
+      setMessages(messsagesData);
       // flatListRef.current?.scrollToEnd();
     });
     console.log();
@@ -104,16 +197,33 @@ const Chat = ({ route }) => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Type a message..."
-            value={message}
-            onChangeText={setMessage}
-          />
-          {message.length == 0 ? (
-            <TouchableOpacity style={styles.send_button} onPress={null}>
-              <Image style={styles.image_icon} source={require("../../assets/image.png")} />
+          {!!image ? (
+            <TouchableOpacity onPress={() => setImage()} style={styles.input}>
+              <Image style={styles.image_icon} source={require('../../assets/deleteImage.png')} />
             </TouchableOpacity>
+          ) : (
+            <TextInput
+              style={styles.input}
+              placeholder="Type a message..."
+              value={message}
+              onChangeText={setMessage}
+            />
+          )}
+
+          {message.length == 0 ? (
+            !!image ? (
+              !photoUploading ? (
+                <TouchableOpacity style={styles.send_button} onPress={handleSendPhoto}>
+                  <Text style={styles.send}>Send photo</Text>
+                </TouchableOpacity>
+              ) : (
+                <ActivityIndicator style={styles.indicator} color="#ED6663" />
+              )
+            ) : (
+              <TouchableOpacity style={styles.send_button} onPress={pickImage}>
+                <Image style={styles.image_icon} source={require('../../assets/addImage.png')} />
+              </TouchableOpacity>
+            )
           ) : (
             <TouchableOpacity style={styles.send_button} onPress={handleSend}>
               <Text style={styles.send}>Send</Text>

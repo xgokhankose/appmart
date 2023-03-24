@@ -70,14 +70,19 @@ export default StyleSheet.create({
   send_button: {
     backgroundColor: '#f0f0f0',
     height: 30,
-    width: 60,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'flex-end',
-    marginRight:5
+    marginRight:5,
+    borderBottomColor:"red",
   },
   image_icon: {
     width: 25,
     height: 25,
   },
+  indicator:{
+    width:25,
+    height:25,
+    color:"#ED6663"
+  }
 });

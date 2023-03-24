@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
+const device = Dimensions.get("window")
 export default StyleSheet.create({
   container: {},
   sender_message: {
@@ -30,4 +30,10 @@ export default StyleSheet.create({
     fontFamily: 'Nunito_400Regular',
     fontSize: 17,
   },
+  image:{
+    width:device.width*0.5,
+    height:device.width*0.5
+  },
+
+  
 });
