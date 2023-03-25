@@ -14,19 +14,24 @@ const ProductDetail = ({ route }) => {
 
   const handleContactTrader = async () => {
     const chatsRef = collection(db, 'chats');
+    const currentUser = getAuth().currentUser.email;
+
+    const searchValues = [currentUser, route.params.item.user];
+
+
 
     const q = query(
       chatsRef,
-      where('users.sender', '==', getAuth().currentUser.email),
-      where('users.receiver', '==', route.params.item.user),
-      where('productId', '==', route.params.item.id)
+      where('productId', '==', route.params.item.id),
+      where('users', 'array-contains-any', searchValues)
     );
 
     const querySnapshot = await getDocs(q);
 
+
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
-        users: { sender: getAuth().currentUser.email, receiver: route.params.item.user },
+        users: [getAuth().currentUser.email, route.params.item.user],
         productId: route.params.item.id,
         messages: [],
       });

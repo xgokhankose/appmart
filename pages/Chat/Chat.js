@@ -40,6 +40,8 @@ const Chat = ({ route }) => {
   const [photoUploading, setPhotoUploading] = useState(false);
 
   const flatListRef = useRef(null);
+  const inputRef = useRef(null);
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,9 +52,7 @@ const Chat = ({ route }) => {
     });
 
     if (!result.canceled) {
-      console.log(result.uri);
       setImage(result.uri);
-      console.log(!!image);
     }
   };
 
@@ -108,7 +108,6 @@ const Chat = ({ route }) => {
   const handleSendPhoto = async () => {
     setPhotoUploading(true);
     const result = await uploadImage();
-    console.log(result[0]);
     setMessage('');
 
     const myDocRef = doc(db, 'chats', chatId);
@@ -134,8 +133,7 @@ const Chat = ({ route }) => {
   };
 
   const messageItems = ({ item }) => {
-    console.log(item.message);
-    console.log(item.url);
+
 
     if (!!item.message) {
       return <Message item={item} />;
@@ -154,9 +152,10 @@ const Chat = ({ route }) => {
     const chatDoc = doc(db, 'chats', chatId);
     const unsubscribe = onSnapshot(chatDoc, (doc) => {
       var data = doc.data();
+      //setMessages(data.messages)
       const messsagesData = data.messages.reverse();
       setMessages(messsagesData);
-      // flatListRef.current?.scrollToEnd();
+      //flatListRef.current?.scrollToEnd();
     });
     console.log();
     return unsubscribe;
@@ -189,7 +188,7 @@ const Chat = ({ route }) => {
             inverted={true}
             showsVerticalScrollIndicator={false}
             ref={flatListRef}
-            //onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
+            onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
             bounces={false}
             data={messages}
             renderItem={messageItems}

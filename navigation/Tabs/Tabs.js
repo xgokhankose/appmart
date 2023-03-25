@@ -2,8 +2,7 @@ import { Image, SafeAreaView, StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '../../pages/Home';
-import Chat from '../../pages/Chat';
+import ChatList from '../../pages/ChatList';
 import ProfileStackScreen from '../ProfileStackScreen';
 import HomeStackScreens from '../HomeStack/HomeStackScreens';
 
@@ -12,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const MyTabs = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'yellow ' }} forceInset={{ top: 'never' }}>
-      <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeScreen">
+      <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="ChatListScreen">
         <Tab.Screen
           options={{
             title: '',
@@ -29,8 +28,8 @@ const MyTabs = () => {
               />
             ),
           }}
-          name="ChatScreen"
-          component={Chat}
+          name="ChatListScreen"
+          component={ChatList}
         />
         <Tab.Screen
           options={{

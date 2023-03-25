@@ -3,7 +3,6 @@ import styles from './ShowPhoto.style';
 import { useNavigation } from '@react-navigation/native';
 
 const ShowPhoto = ({ route }) => {
-  console.log(route.params);
   const navigation = useNavigation();
 
   return (
