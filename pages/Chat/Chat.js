@@ -96,6 +96,7 @@ const Chat = ({ route }) => {
     const valueToAdd = { message: message, date: Date.now(), sender: getAuth().currentUser.email };
     updateDoc(myDocRef, {
       messages: arrayUnion(valueToAdd),
+      updatetAt: Date.now()
     })
       .then(() => {
         console.log('Document updated successfully!');
@@ -152,12 +153,11 @@ const Chat = ({ route }) => {
     const chatDoc = doc(db, 'chats', chatId);
     const unsubscribe = onSnapshot(chatDoc, (doc) => {
       var data = doc.data();
-      //setMessages(data.messages)
-      const messsagesData = data.messages.reverse();
-      setMessages(messsagesData);
-      //flatListRef.current?.scrollToEnd();
+      setMessages(data.messages)
+      //const messsagesData = data.messages.reverse();
+      //setMessages(messsagesData);
+      flatListRef.current?.scrollToEnd();
     });
-    console.log();
     return unsubscribe;
   }, [chatId]);
 
@@ -185,7 +185,7 @@ const Chat = ({ route }) => {
         </View>
         <View style={styles.messages_container}>
           <FlatList
-            inverted={true}
+            inverted={false}
             showsVerticalScrollIndicator={false}
             ref={flatListRef}
             onContentSizeChange={() => flatListRef.current?.scrollToEnd()}

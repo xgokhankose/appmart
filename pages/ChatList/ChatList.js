@@ -1,31 +1,40 @@
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, Image } from 'react-native';
+import { getAuth } from 'firebase/auth';
+import ChatListRender from '../../components/ChatListRender';
+import styles from './ChatList.style';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { getAuth } from 'firebase/auth';
-
 const ChatList = () => {
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
 
   const authEmail = getAuth().currentUser.email;
+
+  const chatRender = ({ item }) => {
+    return <ChatListRender item={item} />;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collection(db, 'chats'), where('users', 'array-contains', authEmail));
       const querySnapshot = await getDocs(q);
-      const chats = [];
+      const chatsTemp = [];
       querySnapshot.forEach((doc) => {
-        chats.push(doc.data());
+        chatsTemp.push(doc.data());
       });
-      setChats(chats);
+      setChats(chatsTemp);
     };
 
     fetchData();
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>chat</Text>
+    <View style={{ flex: 1 }}>
+      <View style={styles.top_container}>
+        <Text style={styles.title}>Chats</Text>
+        <Image source={require('../../assets/search.png')} style={styles.icon_search} />
+      </View>
+      <FlatList ListEmptyComponent={<Text>Mesaj Yok</Text>} data={chats} renderItem={chatRender} />
     </View>
   );
 };

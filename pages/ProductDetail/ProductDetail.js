@@ -8,6 +8,7 @@ import { db, storage } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 
 const ProductDetail = ({ route }) => {
+  console.log(route.params);
   const [focus, setFocus] = useState(0);
 
   const navigation = useNavigation();
@@ -17,8 +18,6 @@ const ProductDetail = ({ route }) => {
     const currentUser = getAuth().currentUser.email;
 
     const searchValues = [currentUser, route.params.item.user];
-
-
 
     const q = query(
       chatsRef,
@@ -34,6 +33,9 @@ const ProductDetail = ({ route }) => {
         users: [getAuth().currentUser.email, route.params.item.user],
         productId: route.params.item.id,
         messages: [],
+        productImage: route.params.item.images[0].url,
+        receiverName: route.params.item.userName,
+        productName: route.params.item.name,
       });
 
       const chatId = chatRef.id;
