@@ -8,7 +8,6 @@ import { db, storage } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 
 const ProductDetail = ({ route }) => {
-  console.log(route.params);
   const [focus, setFocus] = useState(0);
 
   const navigation = useNavigation();
@@ -16,22 +15,22 @@ const ProductDetail = ({ route }) => {
   const handleContactTrader = async () => {
     const chatsRef = collection(db, 'chats');
     const currentUser = getAuth().currentUser.email;
+    const productId = route.params.item.id;
 
     const searchValues = [currentUser, route.params.item.user];
 
     const q = query(
       chatsRef,
-      where('productId', '==', route.params.item.id),
+      where('productId', '==', productId),
       where('users', 'array-contains-any', searchValues)
     );
 
     const querySnapshot = await getDocs(q);
 
-
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
         users: [getAuth().currentUser.email, route.params.item.user],
-        productId: route.params.item.id,
+        productId: productId,
         messages: [],
         productImage: route.params.item.images[0].url,
         receiverName: route.params.item.userName,

@@ -13,9 +13,6 @@ const HomeStackScreens = () => {
       <HomeStack.Screen name="ProductDetailPage" component={ProductDetail} />
       <HomeStack.Screen name="ChatPage" component={Chat} />
       <HomeStack.Screen name="ShowPhotoPage" component={ShowPhoto} />
-
-
-      
     </HomeStack.Navigator>
   );
 };

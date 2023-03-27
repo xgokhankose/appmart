@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
@@ -14,10 +13,6 @@ import {
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
 import {
-  collection,
-  getDocs,
-  query,
-  where,
   onSnapshot,
   doc,
   updateDoc,

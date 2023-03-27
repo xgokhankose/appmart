@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatList from '../../pages/ChatList';
 import ProfileStackScreen from '../ProfileStackScreen';
 import HomeStackScreens from '../HomeStack/HomeStackScreens';
+import ChatStackScreens from '../ChatStack/ChatStackScreens';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +30,7 @@ const MyTabs = () => {
             ),
           }}
           name="ChatListScreen"
-          component={ChatList}
+          component={ChatStackScreens}
         />
         <Tab.Screen
           options={{

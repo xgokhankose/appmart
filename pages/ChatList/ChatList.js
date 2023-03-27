@@ -18,10 +18,11 @@ const ChatList = () => {
     const fetchData = async () => {
       const q = query(collection(db, 'chats'), where('users', 'array-contains', authEmail));
       const querySnapshot = await getDocs(q);
-      const chatsTemp = [];
-      querySnapshot.forEach((doc) => {
-        chatsTemp.push(doc.data());
-      });
+      //const  = [];
+      const chatsTemp = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
       setChats(chatsTemp);
     };
 
