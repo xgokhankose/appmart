@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './ChatListRender.style';
 import { useNavigation } from '@react-navigation/native';
 

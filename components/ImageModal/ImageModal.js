@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import {
   View,
   Image,
-  Text,
-  TouchableOpacity,
   SafeAreaView,
-  TouchableWithoutFeedback,
 } from 'react-native';
-import { back } from 'react-native/Libraries/Animated/Easing';
 import styles from './ImageModal.style';
 const ImageModal = (props) => {
-  //const [modalVisible, setModalVisible] = useState(false);
-  const closeModal = (bool, data) => {
+  const closeModal = (bool) => {
     props.changeModalVisible(bool);
   };
 

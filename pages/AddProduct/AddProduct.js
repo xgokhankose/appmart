@@ -1,7 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   Text,
   ScrollView,
   View,
@@ -24,7 +23,6 @@ import Dropdown from '../../components/Dropdown';
 import categories from '../../categories.json';
 import { addProduct } from '../../redux/userProductsSlice';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import Loading from '../../components/Loading';
 import { FlatList } from 'react-native-gesture-handler';
 import AddProductImageRender from '../../components/AddProductImageRender';
@@ -35,7 +33,6 @@ const AddProduct = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState('');
   const [imageObjects, setImageObjects] = useState([]);
-  const [valueFromChild, setValueFromChild] = useState('');
 
   const dispatch = useDispatch();
 

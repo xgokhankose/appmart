@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 import styles from "./CustomDeleteButton.style"
 
 const CustomDeleteButton = ({title,onPress}) => { 

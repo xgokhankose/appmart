@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   View,
@@ -11,7 +10,6 @@ import {
 } from "react-native";
 import {
   signInWithEmailAndPassword,
-  getAuth
 } from "firebase/auth";
 import styles from "./Login.style";
 import { authentication } from "../../../firebase";

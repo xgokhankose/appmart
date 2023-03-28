@@ -3,8 +3,8 @@ import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import styles from './ProductDetail.style';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { doc, setDoc, addDoc, collection, query, where, getDocs } from 'firebase/firestore';
-import { db, storage } from '../../firebase';
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 
 const ProductDetail = ({ route }) => {

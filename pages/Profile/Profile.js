@@ -1,9 +1,8 @@
-import { View, Text, Image, SafeAreaView } from 'react-native';
+import { Text, Image, SafeAreaView } from 'react-native';
 import styles from './Profile.style';
 import ProfileButton from '../../components/ProfileButton';
 import ProfileButtonRed from '../../components/ProfileButtonRed';
 import { getAuth, signOut } from 'firebase/auth';
-import AddProduct from '../AddProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetData from '../../hooks/useGetData';
 import { setProducts } from '../../redux/userProductsSlice';

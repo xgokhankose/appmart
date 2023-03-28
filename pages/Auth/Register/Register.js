@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   View,

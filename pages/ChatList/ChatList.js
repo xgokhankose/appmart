@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import ChatListRender from '../../components/ChatListRender';
 import styles from './ChatList.style';
-import { doc, setDoc, addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 const ChatList = () => {
   const [chats, setChats] = useState([]);
@@ -18,7 +18,6 @@ const ChatList = () => {
     const fetchData = async () => {
       const q = query(collection(db, 'chats'), where('users', 'array-contains', authEmail));
       const querySnapshot = await getDocs(q);
-      //const  = [];
       const chatsTemp = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,

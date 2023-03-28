@@ -136,11 +136,7 @@ const Chat = ({ route }) => {
     } else {
       return <PhotoMessage item={item} />;
     }
-    /*  if(item.message != "" ){
-      return <Message item={item}
-    }else{
-      return <Message item={item}  
-    }    */
+ 
   };
   const navigation = useNavigation();
 
