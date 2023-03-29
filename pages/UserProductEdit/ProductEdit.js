@@ -1,7 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   Text,
   ScrollView,
   View,
@@ -13,11 +12,10 @@ import {
 import CustomDescriptionInput from '../../components/CustomDescriptionInput';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-
 import styles from './ProductEdit.style';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';

@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Image,
-  SafeAreaView,
-} from 'react-native';
+import React from 'react';
+import { View, Image, SafeAreaView } from 'react-native';
 import styles from './ImageModal.style';
 const ImageModal = (props) => {
   const closeModal = (bool) => {

@@ -10,9 +10,11 @@ const Message = ({ item }) => {
         <View style={styles.sender_message_container}>
           <Text style={styles.sender_message}>{item.message}</Text>
         </View>
-      ) : <View style={styles.receiver_message_container}>
+      ) : (
+        <View style={styles.receiver_message_container}>
           <Text style={styles.receiver_message}>{item.message}</Text>
-        </View>}
+        </View>
+      )}
     </View>
   );
 };

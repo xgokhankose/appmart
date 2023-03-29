@@ -12,7 +12,7 @@ import {
 import CustomDescriptionInput from '../../components/CustomDescriptionInput';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import { doc, setDoc, addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from 'firebase/storage';
@@ -39,14 +39,12 @@ const AddProduct = () => {
   const deleteImage = (value) => {
     let result = [];
     imageObjects.map((v, i) => {
-
       if (value.path != v[0].path) {
-        value[0]=value
+        value[0] = value;
         result.push(value);
       }
     });
     setImageObjects(result);
-
   };
 
   const imageRender = ({ item }) => {
@@ -120,7 +118,7 @@ const AddProduct = () => {
         name: name,
         description: description,
         user: getAuth().currentUser.email,
-        userName:getAuth().currentUser.displayName,
+        userName: getAuth().currentUser.displayName,
         category: selected,
         createdAt: new Date(),
         images: imageObjects[0],
@@ -135,7 +133,7 @@ const AddProduct = () => {
           name: name,
           description: description,
           user: getAuth().currentUser.email,
-          userName:getAuth().currentUser.displayName,
+          userName: getAuth().currentUser.displayName,
           category: selected,
           createdAt: { secondsSinceEpoch, nanosecondsSinceEpoch },
           images: imageObjects[0],

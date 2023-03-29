@@ -33,10 +33,7 @@ const PhotoMessage = ({ item }) => {
             animationType="fade"
             visible={isModalVisible}
             onRequestClose={() => changeModalVisible(false)}>
-            <ImageModal
-              url={item.url}
-              changeModalVisible={changeModalVisible}
-            />
+            <ImageModal url={item.url} changeModalVisible={changeModalVisible} />
           </Modal>
         </TouchableOpacity>
       ) : (

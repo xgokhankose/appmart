@@ -12,12 +12,7 @@ import {
 } from 'react-native';
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
-import {
-  onSnapshot,
-  doc,
-  updateDoc,
-  arrayUnion,
-} from 'firebase/firestore';
+import { onSnapshot, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../../firebase';
 import Message from '../../components/Message';
 import { getAuth } from 'firebase/auth';
@@ -35,8 +30,6 @@ const Chat = ({ route }) => {
   const [photoUploading, setPhotoUploading] = useState(false);
 
   const flatListRef = useRef(null);
-  const inputRef = useRef(null);
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -91,7 +84,7 @@ const Chat = ({ route }) => {
     const valueToAdd = { message: message, date: Date.now(), sender: getAuth().currentUser.email };
     updateDoc(myDocRef, {
       messages: arrayUnion(valueToAdd),
-      updatetAt: Date.now()
+      updatetAt: Date.now(),
     })
       .then(() => {
         console.log('Document updated successfully!');
@@ -129,14 +122,11 @@ const Chat = ({ route }) => {
   };
 
   const messageItems = ({ item }) => {
-
-
     if (!!item.message) {
       return <Message item={item} />;
     } else {
       return <PhotoMessage item={item} />;
     }
- 
   };
   const navigation = useNavigation();
 
@@ -144,7 +134,7 @@ const Chat = ({ route }) => {
     const chatDoc = doc(db, 'chats', chatId);
     const unsubscribe = onSnapshot(chatDoc, (doc) => {
       var data = doc.data();
-      setMessages(data.messages)
+      setMessages(data.messages);
       //const messsagesData = data.messages.reverse();
       //setMessages(messsagesData);
       flatListRef.current?.scrollToEnd();
