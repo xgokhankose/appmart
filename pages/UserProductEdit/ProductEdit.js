@@ -30,7 +30,6 @@ import Loading from '../../components/Loading';
 const ProductEdit = ({ route }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState('');
   const [product, setProduct] = useState('');
@@ -38,8 +37,6 @@ const ProductEdit = ({ route }) => {
   const [isActive, setIsActive] = useState(true);
 
   const dispatch = useDispatch();
-
-  const products = useSelector((state) => state.products);
 
   const list = useSelector((state) => state.userProducts.userProducts);
   if (product == '') {
@@ -55,18 +52,14 @@ const ProductEdit = ({ route }) => {
   }
 
   const deleteImage = (value) => {
-    let result = [];
-    imageObjects.map((v, i) => {
-      if (value.path != v.path) {
-        value[0] = value;
-        result.push(value);
-      }
-    });
-    setImageObjects(result);
+    console.log(value);
+    const ImageObjects = imageObjects.filter((imageObjects) => imageObjects.path !== value);
+    setImageObjects(ImageObjects);
   };
 
   const imageRender = ({ item }) => {
-    return <AddProductImageRender onPressDelete={deleteImage} item={item} />;
+    console.log(item);
+    return <AddProductImageRender onPressDelete={() => deleteImage(item.path)} item={item} />;
   };
 
   const pickImage = async () => {
@@ -85,7 +78,7 @@ const ProductEdit = ({ route }) => {
     }
 
     setIsUploading(true);
-    const imageRefs = [];
+    [];
 
     try {
       const blobImage = await new Promise((resolve, reject) => {
@@ -111,8 +104,8 @@ const ProductEdit = ({ route }) => {
       const url = await getDownloadURL(uploadTask.ref);
       const path = uploadTask.metadata.fullPath;
 
-      imageRefs.push({ path: path, url: url });
-      setImageObjects([...imageObjects, imageRefs[0]]);
+      const imageRefs = { path: path, url: url };
+      setImageObjects([...imageObjects, imageRefs]);
     } catch (error) {
       console.log('Error uploading image:', error);
       setIsUploading(false);
@@ -129,6 +122,7 @@ const ProductEdit = ({ route }) => {
   };
 
   const addData = async () => {
+    console.log(imageObjects)
     setIsUploading(true);
     try {
       const ref = doc(db, 'products', product.id);

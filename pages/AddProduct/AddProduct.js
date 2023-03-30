@@ -48,7 +48,8 @@ const AddProduct = () => {
   };
 
   const imageRender = ({ item }) => {
-    return <AddProductImageRender onPressDelete={deleteImage} item={item[0]} />;
+    console.log(item)
+    return <AddProductImageRender onPressDelete={deleteImage} item={item} />;
   };
 
   const pickImage = async () => {
@@ -67,7 +68,6 @@ const AddProduct = () => {
     }
 
     setIsUploading(true);
-    const imageRefs = [];
 
     try {
       const blobImage = await new Promise((resolve, reject) => {
@@ -93,13 +93,14 @@ const AddProduct = () => {
       const url = await getDownloadURL(uploadTask.ref);
       const path = uploadTask.metadata.fullPath;
 
-      imageRefs.push({ path: path, url: url });
+      const imageRefs = { path: path, url: url };
+      console.log(imageRefs)
       setImageObjects([...imageObjects, imageRefs]);
     } catch (error) {
       console.log('Error uploading image:', error);
       setIsUploading(false);
     }
-
+    console.log(imageObjects);
     setIsUploading(false);
   };
 
@@ -112,6 +113,7 @@ const AddProduct = () => {
   };
 
   const addData = async () => {
+
     setIsUploading(true);
     try {
       const docRef = await addDoc(collection(db, 'products'), {
@@ -121,7 +123,7 @@ const AddProduct = () => {
         userName: getAuth().currentUser.displayName,
         category: selected,
         createdAt: new Date(),
-        images: imageObjects[0],
+        images: imageObjects,
         isActive: true,
       });
       console.log('Document written with ID: ', docRef.id);
@@ -136,7 +138,7 @@ const AddProduct = () => {
           userName: getAuth().currentUser.displayName,
           category: selected,
           createdAt: { secondsSinceEpoch, nanosecondsSinceEpoch },
-          images: imageObjects[0],
+          images: imageObjects,
           isActive: true,
         })
       );

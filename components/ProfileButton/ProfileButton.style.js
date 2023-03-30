@@ -3,11 +3,11 @@ const device = Dimensions.get("window");
 
 export default StyleSheet.create({
   container: {
-    width: device.width * 0.4,
+    width: device.width * 0.5,
     borderWidth: 2,
     margin: 10,
     padding: 7,
-    borderRadius: 4,
+    borderRadius: 10,
     borderColor: "#ED6663",
   },
   text: {
