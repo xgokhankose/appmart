@@ -110,7 +110,6 @@ const AddProduct = () => {
   };
 
   const addData = async () => {
-
     setIsUploading(true);
     try {
       const docRef = await addDoc(collection(db, 'products'), {
@@ -124,9 +123,9 @@ const AddProduct = () => {
         isActive: true,
       });
       console.log('Document written with ID: ', docRef.id);
-      const timestamp = Date.now();
-      const secondsSinceEpoch = Math.floor(timestamp / 1000);
-      const nanosecondsSinceEpoch = (timestamp % 1000) * 1e6;
+      /*   const timestamp = Date.now();
+      const seconds = Math.floor(timestamp / 1000);
+      const nanoseconds = (timestamp % 1000) * 1e6;
       dispatch(
         addProduct({
           name: name,
@@ -134,11 +133,11 @@ const AddProduct = () => {
           user: getAuth().currentUser.email,
           userName: getAuth().currentUser.displayName,
           category: selected,
-          createdAt: { secondsSinceEpoch, nanosecondsSinceEpoch },
+          createdAt: { seconds, nanoseconds },
           images: imageObjects,
           isActive: true,
         })
-      );
+      ); */
       Alert.alert('Ürün başarıyla eklendi!');
       setIsUploading(false);
       setName('');

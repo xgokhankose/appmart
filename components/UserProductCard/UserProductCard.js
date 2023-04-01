@@ -8,6 +8,7 @@ const UserProductCard = ({ item }) => {
     navigation.navigate('ProductEditPage', { id });
   };
 
+
   var date = new Date(item.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
   var dataDay = date.getDate();

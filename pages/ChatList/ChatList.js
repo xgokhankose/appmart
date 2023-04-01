@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import ChatListRender from '../../components/ChatListRender';
@@ -31,11 +31,15 @@ const ChatList = () => {
       console.log('hata', error);
     }
   }; */
-  const fetchData2 = async () => {
+  const fetchData = async () => {
     try {
       const myCollectionRef = collection(db, 'chats');
-      const myQuery = query(myCollectionRef, where('users', 'array-contains', authEmail));
-      const unsubscribe = onSnapshot(myQuery, (querySnapshot) => {
+      const myQuery = query(
+        myCollectionRef,
+        where('users', 'array-contains', authEmail),
+        where('messages', '!=', [])
+      );
+      onSnapshot(myQuery, (querySnapshot) => {
         const chatsTemp = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
@@ -43,12 +47,12 @@ const ChatList = () => {
         dispatch(setChatList(chatsTemp));
       });
     } catch (error) {
-      console.log('hata', error);
+      console.log('fetchData error:', error);
     }
   };
 
   useEffect(() => {
-    fetchData2();
+    fetchData();
   }, []);
 
   return (

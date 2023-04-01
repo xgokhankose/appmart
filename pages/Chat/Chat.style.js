@@ -58,9 +58,8 @@ export default StyleSheet.create({
   input: {
     flex: 1,
     marginHorizontal: 5,
-    fontFamily:"Nunito_400Regular",
-    fontSize:16,
-    
+    fontFamily: 'Nunito_400Regular',
+    fontSize: 16,
   },
   send: {
     fontFamily: 'Nunito_700Bold',
@@ -73,16 +72,16 @@ export default StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'flex-end',
-    marginRight:5,
-    borderBottomColor:"red",
+    marginRight: 5,
+    borderBottomColor: 'red',
   },
   image_icon: {
     width: 25,
     height: 25,
   },
-  indicator:{
-    width:25,
-    height:25,
-    color:"#ED6663"
-  }
+  indicator: {
+    width: 25,
+    height: 25,
+    color: '#ED6663',
+  },
 });
