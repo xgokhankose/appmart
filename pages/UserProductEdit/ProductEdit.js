@@ -52,13 +52,11 @@ const ProductEdit = ({ route }) => {
   }
 
   const deleteImage = (value) => {
-    console.log(value);
     const ImageObjects = imageObjects.filter((imageObjects) => imageObjects.path !== value);
     setImageObjects(ImageObjects);
   };
 
   const imageRender = ({ item }) => {
-    console.log(item);
     return <AddProductImageRender onPressDelete={() => deleteImage(item.path)} item={item} />;
   };
 
@@ -122,7 +120,6 @@ const ProductEdit = ({ route }) => {
   };
 
   const addData = async () => {
-    console.log(imageObjects)
     setIsUploading(true);
     try {
       const ref = doc(db, 'products', product.id);

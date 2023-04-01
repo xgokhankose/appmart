@@ -5,8 +5,6 @@ import styles from './AddProductImageRender.style';
 const AddProductImageRender = ({ item, onPressDelete }) => {
   const [value, setValue] = useState('');
 
-  console.log(item);
-
   const handleButtonClick = () => {
     onPressDelete(value);
   };

@@ -6,7 +6,6 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-import { getAuth } from "firebase/auth";
 
 function useGetAllData(category) {
   const [data, setData] = useState([]);

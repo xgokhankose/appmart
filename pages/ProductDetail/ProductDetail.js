@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
 
 const ProductDetail = ({ route }) => {
   const [focus, setFocus] = useState(0);
@@ -14,26 +15,28 @@ const ProductDetail = ({ route }) => {
 
   const handleContactTrader = async () => {
     const chatsRef = collection(db, 'chats');
-    const currentUser = getAuth().currentUser.email;
+    const currentUser = getAuth().currentUser;
     const productId = route.params.item.id;
 
-    const searchValues = [currentUser, route.params.item.user];
+    const searchValues = [currentUser.email, route.params.item.user];
 
     const q = query(
       chatsRef,
       where('productId', '==', productId),
-      where('users', 'array-contains-any', searchValues)
+      where('users', '==', searchValues)
     );
 
     const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs);
 
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
-        users: [getAuth().currentUser.email, route.params.item.user],
+        users: [currentUser.email, route.params.item.user],
         productId: productId,
         messages: [],
         productImage: route.params.item.images[0].url,
         receiverName: route.params.item.userName,
+        senderName: currentUser.displayName,
         productName: route.params.item.name,
       });
 

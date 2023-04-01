@@ -48,7 +48,6 @@ const AddProduct = () => {
   };
 
   const imageRender = ({ item }) => {
-    console.log(item)
     return <AddProductImageRender onPressDelete={deleteImage} item={item} />;
   };
 
@@ -94,13 +93,11 @@ const AddProduct = () => {
       const path = uploadTask.metadata.fullPath;
 
       const imageRefs = { path: path, url: url };
-      console.log(imageRefs)
       setImageObjects([...imageObjects, imageRefs]);
     } catch (error) {
       console.log('Error uploading image:', error);
       setIsUploading(false);
     }
-    console.log(imageObjects);
     setIsUploading(false);
   };
 
