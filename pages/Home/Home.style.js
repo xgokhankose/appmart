@@ -4,16 +4,16 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   top_container: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#E8E2E2',
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    height:device.height*0.22
+    height: device.height * 0.22,
   },
   search_bar: {
     flexDirection: 'row',
@@ -57,13 +57,17 @@ export default StyleSheet.create({
   categories_button: {
     margin: 2,
     backgroundColor: '#ED6663',
-    borderRadius: 9,
+    borderRadius: 10,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding:2
   },
   categories_button_text: {
     padding: 12,
-    fontSize: 16,
     fontFamily: 'Nunito_700Bold',
     color: '#fff',
+    fontSize:16
   },
   categories_title: {
     fontSize: 22,
@@ -80,8 +84,8 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
   products_container: {
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   products_title: {
     fontSize: 22,
@@ -92,7 +96,6 @@ export default StyleSheet.create({
   products_list: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:"red"
+    backgroundColor: 'red',
   },
- 
 });

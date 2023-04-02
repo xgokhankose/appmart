@@ -34,16 +34,13 @@ const ChatList = () => {
   const fetchData = async () => {
     try {
       const myCollectionRef = collection(db, 'chats');
-      const myQuery = query(
-        myCollectionRef,
-        where('users', 'array-contains', authEmail),
-        where('messages', '!=', [])
-      );
+      const myQuery = query(myCollectionRef, where('users', 'array-contains', authEmail));
       onSnapshot(myQuery, (querySnapshot) => {
-        const chatsTemp = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
+        const chatsTemp = querySnapshot.docs
+          .filter((doc) => doc.data().messages.length > 0)
+          .map((doc) => ({ ...doc.data(), id: doc.id }));
+        console.log(chatsTemp);
+
         dispatch(setChatList(chatsTemp));
       });
     } catch (error) {
