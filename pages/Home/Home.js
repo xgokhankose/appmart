@@ -25,8 +25,8 @@ const Home = () => {
 
   const list = useSelector((state) => state.products.products);
 
-  const navigateProductDetail = (item) => {
-    navigation.navigate('ProductDetailPage', { item });
+  const navigateProductDetail = (id) => {
+    navigation.navigate('ProductDetailPage', { id });
   };
 
   const filterSelected = (selectedCategory) => {
@@ -69,7 +69,7 @@ const Home = () => {
   };
 
   const productsRender = ({ item }) => {
-    return <ProductCards item={item} onPress={() => navigateProductDetail(item)} />;
+    return <ProductCards item={item} onPress={() => navigateProductDetail(item.id)} />;
   };
 
   useEffect(() => {

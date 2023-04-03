@@ -7,18 +7,21 @@ import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const ProductDetail = ({ route }) => {
   const [focus, setFocus] = useState(0);
+  const list = useSelector((state) => state.products.products);
+  const product = list.find((product) => product.id === route.params.id);
 
   const navigation = useNavigation();
 
   const handleContactTrader = async () => {
     const chatsRef = collection(db, 'chats');
     const currentUser = getAuth().currentUser;
-    const productId = route.params.item.id;
+    const productId = product.id;
 
-    const searchValues = [currentUser.email, route.params.item.user];
+    const searchValues = [currentUser.email, product.user];
 
     const q = query(
       chatsRef,
@@ -30,32 +33,32 @@ const ProductDetail = ({ route }) => {
 
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
-        users: [currentUser.email, route.params.item.user],
+        users: [currentUser.email, product.user],
         productId: productId,
         messages: [],
-        productImage: route.params.item.images[0].url,
-        receiverName: route.params.item.userName,
+        productImage: product.images[0].url,
+        receiverName: product.userName,
         senderName: currentUser.displayName,
-        productName: route.params.item.name,
+        productName: product.name,
       });
 
       const chatId = chatRef.id;
       navigation.navigate('ChatPage', {
         chatId: chatId,
-        productPhoto: route.params.item.images[0].url,
-        receiver: route.params.item.userName,
+        productPhoto: product.images[0].url,
+        receiver: product.userName,
       });
     } else {
       var chatId = querySnapshot.docs[0].id;
       navigation.navigate('ChatPage', {
         chatId: chatId,
-        productPhoto: route.params.item.images[0].url,
-        receiver: route.params.item.userName,
+        productPhoto: product.images[0].url,
+        receiver: product.userName,
       });
     }
   };
 
-  var date = new Date(route.params.item.createdAt.seconds * 1000);
+  var date = new Date(product.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
   var dataDay = date.getDate();
   var dataYear = date.getFullYear();
@@ -83,28 +86,23 @@ const ProductDetail = ({ route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.titles_container}>
-        <Text style={styles.name}>{route.params.item.name}</Text>
+        <Text style={styles.name}>{product.name}</Text>
         <View style={styles.titles_inner_container}>
-          <Text style={styles.category}>{route.params.item.category}</Text>
+          <Text style={styles.category}>{product.category}</Text>
           <Text style={styles.date}>
             {dataDay}.{dataMonth}.{dataYear}
           </Text>
         </View>
       </View>
       <View style={styles.image_container}>
-        {!!route.params.item.images[0] ? (
-          <Image style={styles.image} source={{ uri: route.params.item.images[focus].url }} />
+        {!!product.images[0] ? (
+          <Image style={styles.image} source={{ uri: product.images[focus].url }} />
         ) : null}
-        <FlatList
-          bounces={false}
-          horizontal={true}
-          data={route.params.item.images}
-          renderItem={imagesList}
-        />
+        <FlatList bounces={false} horizontal={true} data={product.images} renderItem={imagesList} />
       </View>
       <View style={styles.titles_container}>
         <Text style={styles.description_title}>Description</Text>
-        <Text style={styles.description}>{route.params.item.description}</Text>
+        <Text style={styles.description}>{product.description}</Text>
       </View>
       <View style={styles.button_container}>
         <TouchableOpacity onPress={handleContactTrader} style={styles.message_button}>
