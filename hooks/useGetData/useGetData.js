@@ -25,7 +25,6 @@ function useGetData(category) {
           ...doc.data(),
           id: doc.id,
         }));
-        console.log(result);
         setData(result);
       });
 

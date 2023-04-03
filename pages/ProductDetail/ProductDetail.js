@@ -27,7 +27,6 @@ const ProductDetail = ({ route }) => {
     );
 
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot.docs);
 
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {

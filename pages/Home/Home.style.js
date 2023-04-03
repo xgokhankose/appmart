@@ -61,13 +61,13 @@ export default StyleSheet.create({
     height: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    padding:2
+    padding: 2,
   },
   categories_button_text: {
     padding: 12,
     fontFamily: 'Nunito_700Bold',
     color: '#fff',
-    fontSize:16
+    fontSize: 16,
   },
   categories_title: {
     fontSize: 22,
@@ -97,5 +97,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'red',
+  },
+  remove_bar_button: {
+    height: 45,
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+    margin: 4,
   },
 });
