@@ -84,7 +84,7 @@ const Chat = ({ route }) => {
     const valueToAdd = { message: message, date: Date.now(), sender: getAuth().currentUser.email };
     updateDoc(myDocRef, {
       messages: arrayUnion(valueToAdd),
-      updatetAt: Date.now(),
+      updatedAt: new Date(),
     })
       .then(() => {
         console.log('Document updated successfully!');
@@ -103,7 +103,7 @@ const Chat = ({ route }) => {
     const valueToAdd = {
       url: result[0],
       path: result[1],
-      date: Date.now(),
+      date: new Date(),
       sender: getAuth().currentUser.email,
     };
     updateDoc(myDocRef, {
@@ -137,6 +137,7 @@ const Chat = ({ route }) => {
       setMessages(data.messages);
       //const messsagesData = data.messages.reverse();
       //setMessages(messsagesData);
+
       flatListRef.current?.scrollToEnd();
     });
     return unsubscribe;

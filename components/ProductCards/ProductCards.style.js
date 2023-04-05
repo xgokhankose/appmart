@@ -47,4 +47,8 @@ export default StyleSheet.create({
     height: 80,
     paddingLeft: 10,
   },
+  button_container:{
+    paddingLeft:10,
+    paddingVertical:6
+  }
 });

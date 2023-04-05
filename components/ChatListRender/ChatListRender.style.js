@@ -1,9 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
+const device = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
-    
   },
   image: {
     width: 60,
@@ -11,16 +10,15 @@ export default StyleSheet.create({
     borderRadius: 30,
     marginLeft: 20,
     marginVertical: 15,
-    
   },
   inner_container: {
     borderBottomWidth: 1,
     borderColor: '#D8D8D8',
-    flex: 1,
     margin: 20,
-    justifyContent: 'center',
-    paddingBottom:20
-    
+    paddingBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: device.width * 0.7,
   },
   name: {
     fontSize: 22,
@@ -30,5 +28,14 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Nunito_400Regular',
     color: '#404040',
+  },
+  inner_title_container: {
+    width: device.width * 0.6,
+    paddingRight: device.width * 0.05,
+  },
+  date: {
+    fontSize: 17,
+    color: 'gray',
+    fontFamily: 'Nunito_400Regular',
   },
 });

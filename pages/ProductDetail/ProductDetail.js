@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList,Image } from 'react-native';
 import styles from './ProductDetail.style';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { Image as ImageCache } from 'react-native-expo-image-cache';
 
 const ProductDetail = ({ route }) => {
   const [focus, setFocus] = useState(0);
@@ -71,7 +71,7 @@ const ProductDetail = ({ route }) => {
           styles.mini_image_container,
           data.index == focus ? { borderColor: '#ED6663' } : { borderColor: '#F2F2F2' },
         ]}>
-        <Image style={styles.mini_image} source={{ uri: data.item.url }} />
+        <ImageCache style={styles.mini_image} uri={data.item.url} />
       </TouchableOpacity>
     );
   };
@@ -96,7 +96,7 @@ const ProductDetail = ({ route }) => {
       </View>
       <View style={styles.image_container}>
         {!!product.images[0] ? (
-          <Image style={styles.image} source={{ uri: product.images[focus].url }} />
+          <ImageCache style={styles.image} uri={product.images[focus].url} />
         ) : null}
         <FlatList bounces={false} horizontal={true} data={product.images} renderItem={imagesList} />
       </View>

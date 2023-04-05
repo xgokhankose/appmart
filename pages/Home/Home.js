@@ -73,7 +73,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(list);
     setDataProducts(list);
   }, [list]);
 

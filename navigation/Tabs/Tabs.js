@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 const MyTabs = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'yellow ' }} forceInset={{ top: 'never' }}>
-      <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeScreen">
+      <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName="ChatListScreen">
         <Tab.Screen
           options={{
             title: '',
