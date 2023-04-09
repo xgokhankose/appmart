@@ -9,17 +9,20 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
 import { onSnapshot, doc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { db } from '../../firebase';
 import Message from '../../components/Message';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import PhotoMessage from '../../components/PhotoMessage';
+import MenuModal from '../../components/MenuModal';
+import { db } from '../../firebase';
 
 const Chat = ({ route }) => {
   const { chatId } = route.params;
@@ -28,8 +31,31 @@ const Chat = ({ route }) => {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const navigation = useNavigation();
+
+  const changeModalVisible = (bool) => {
+    setIsModalVisible(bool);
+  };
 
   const flatListRef = useRef(null);
+
+  const navigateCommentProfile = () => {
+    navigation.navigate('CommentProfilePage');
+  };
+
+  const setPermission = () => {
+    const usersRef = ref(db, 'commentPermissions');
+    const emailQuery = query(usersRef, orderByChild('email').equalTo(route.params.senderEmail));
+    onValue(emailQuery, (snapshot) => {
+      const results = [];
+      snapshot.forEach((childSnapshot) => {
+        results.push(childSnapshot.val());
+      });
+      console.log('Search Results:', results);
+    });
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -128,7 +154,6 @@ const Chat = ({ route }) => {
       return <PhotoMessage item={item} />;
     }
   };
-  const navigation = useNavigation();
 
   useEffect(() => {
     const chatDoc = doc(db, 'chats', chatId);
@@ -158,10 +183,24 @@ const Chat = ({ route }) => {
           </TouchableOpacity>
           <View style={styles.icon_mid_container}>
             <Image style={styles.product_photo} source={{ uri: route.params.productPhoto }} />
-            <Text style={styles.receiver_name}>{route.params.receiver}</Text>
+            <TouchableOpacity onPress={navigateCommentProfile}>
+              <Text style={styles.receiver_name}>{route.params.receiver}</Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.icon_inner_container}>
+          {isModalVisible && (
+            <>
+              <Modal
+                transparent={true}
+                animationType="fade"
+                visible={isModalVisible}
+                onRequestClose={() => changeModalVisible(false)}>
+                <MenuModal onPress={setPermission} changeModalVisible={changeModalVisible} />
+              </Modal>
+            </>
+          )}
+          <TouchableOpacity
+            onPress={() => changeModalVisible(true)}
+            style={styles.icon_inner_container}>
             <Image style={styles.icon} source={require('../../assets/dots.png')} />
           </TouchableOpacity>
         </View>

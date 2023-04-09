@@ -9,18 +9,9 @@ const PhotoMessage = ({ item }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const authEmail = getAuth().currentUser.email;
-  const navigation = useNavigation();
-
-  const navigateShowPhoto = () => {
-    navigation.navigate('ShowPhotoPage', { url: item.url });
-  };
 
   const changeModalVisible = (bool) => {
     setIsModalVisible(bool);
-  };
-
-  const setDataFunc = (data) => {
-    setData(data);
   };
 
   return (

@@ -11,7 +11,8 @@ import {
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import styles from './Register.style';
 import { authentication } from '../../../firebase';
-
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../../firebase';
 const Register = ({ navigation }) => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -19,6 +20,20 @@ const Register = ({ navigation }) => {
 
   const navigateLogin = () => {
     navigation.navigate('LoginPage');
+  };
+  const createCommment = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'commentPermissions'), {
+        // Replace this with the data you want to add to the document
+        name: name,
+        email: email,
+        permissions: [],
+      });
+
+      console.log('New document added with ID: ', docRef.id);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
   };
 
   const handleRegister = () => {
@@ -29,6 +44,7 @@ const Register = ({ navigation }) => {
         const user = userCredential.user;
         updateProfile(user, { displayName: name });
       })
+      .then(createCommment())
       .catch((error) => {
         console.error();
         Alert.alert(error.message);

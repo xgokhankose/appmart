@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import ChatListRender from '../../components/ChatListRender';
 import styles from './ChatList.style';
-import { collection, query, where, onSnapshot,orderBy } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { setChatList } from '../../redux/chatList';
@@ -33,16 +33,19 @@ const ChatList = () => {
   }; */
   const fetchData = async () => {
     try {
+      const sender = [{ senderEmail: authEmail }];
+      const receiver = [{ receiverEmail: authEmail }];
       const myCollectionRef = collection(db, 'chats');
       const myQuery = query(
         myCollectionRef,
-        where('users', 'array-contains', authEmail),
+        where('users', 'array-contains-any', [...sender, ...receiver]),
         orderBy('updatedAt', 'desc')
       );
+
       onSnapshot(myQuery, (querySnapshot) => {
         const chatsTemp = querySnapshot.docs
           .filter((doc) => doc.data().messages.length > 0)
-          .map((doc) => ({ ...doc.data(), id: doc.id }));
+          .map((doc) => (console.log(doc), { ...doc.data(), id: doc.id }));
 
         dispatch(setChatList(chatsTemp));
       });

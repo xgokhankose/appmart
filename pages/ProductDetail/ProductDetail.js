@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList,Image } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import styles from './ProductDetail.style';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -17,29 +17,34 @@ const ProductDetail = ({ route }) => {
   const navigation = useNavigation();
 
   const handleContactTrader = async () => {
-    const chatsRef = collection(db, 'chats');
     const currentUser = getAuth().currentUser;
     const productId = product.id;
 
-    const searchValues = [currentUser.email, product.user];
+    const searchValues1 = [{ senderEmail: currentUser.email }, { receiverEmail: product.user }];
+    const searchValues2 = [{ senderEmail: product.user }, { receiverEmail: currentUser.email }];
 
+    const chatsRef = collection(db, 'chats');
     const q = query(
       chatsRef,
       where('productId', '==', productId),
-      where('users', '==', searchValues)
+      where('users', 'in', [searchValues1, searchValues2])
     );
 
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.size == 0) {
       const chatRef = await addDoc(collection(db, 'chats'), {
-        users: [currentUser.email, product.user],
+        users: [{ senderEmail: currentUser.email }, { receiverEmail: product.user }],
         productId: productId,
         messages: [],
         productImage: product.images[0].url,
         receiverName: product.userName,
         senderName: currentUser.displayName,
         productName: product.name,
+        commentPermission: [
+          { name: currentUser.displayName, email: currentUser.email, canAccess: false },
+          { name: product.userName, email: product.user, canAccess: false },
+        ],
       });
 
       const chatId = chatRef.id;

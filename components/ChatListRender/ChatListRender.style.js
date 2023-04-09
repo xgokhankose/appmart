@@ -15,7 +15,7 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#D8D8D8',
     margin: 20,
-    paddingBottom: 20,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     width: device.width * 0.7,
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     paddingRight: device.width * 0.05,
   },
   date: {
-    fontSize: 17,
+    fontSize: 16,
     color: 'gray',
     fontFamily: 'Nunito_400Regular',
   },

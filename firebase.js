@@ -3,15 +3,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { collection } from 'firebase/firestore';
+import config from './config';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC6X-iJT6wHWLB1kDtxVH31NgVxSyfKBo',
-  authDomain: 'appmart-d2a4.firebaseapp.com',
-  projectId: 'appmart-d2a4',
-  storageBucket: 'appmart-d2a4.appspot.com',
-  messagingSenderId: '93152466921',
-  appId: '1:931524669219:web:794e7184b75217cb08e69',
-  measurementId: 'G-BM60ED3EF',
+  apiKey: config.REACT_APP_FIREBASE_API_KEY,
+  authDomain: config.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: config.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: config.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: config.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: config.REACT_APP_FIREBASE_APP_ID,
+  measurementId: config.REACT_APP_FIREBASE_MEASUREMNT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
