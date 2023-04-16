@@ -11,10 +11,21 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Modal,
+  Alert,
 } from 'react-native';
 import styles from './Chat.style';
 import { useNavigation } from '@react-navigation/native';
-import { onSnapshot, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import {
+  onSnapshot,
+  doc,
+  updateDoc,
+  arrayUnion,
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import Message from '../../components/Message';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
@@ -45,16 +56,36 @@ const Chat = ({ route }) => {
     navigation.navigate('CommentProfilePage');
   };
 
-  const setPermission = () => {
-    const usersRef = ref(db, 'commentPermissions');
-    const emailQuery = query(usersRef, orderByChild('email').equalTo(route.params.senderEmail));
-    onValue(emailQuery, (snapshot) => {
-      const results = [];
-      snapshot.forEach((childSnapshot) => {
-        results.push(childSnapshot.val());
+  const setPermission = async () => {
+    var results = '';
+    var id = '';
+    const usersRef = collection(db, 'commentPermissions');
+    const emailQuery = query(usersRef, where('email', '==', route.params.senderEmail));
+    await getDocs(emailQuery)
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          id = doc.id;
+          results = doc.data();
+        });
+      })
+      .catch((error) => {
+        console.log('Error getting documents:', error);
       });
-      console.log('Search Results:', results);
-    });
+
+    if (results.permissions.includes(route.params.receiverEmail)) {
+      setIsModalVisible(false);
+      console.log('Has been already added.');
+      Alert.alert('Has been already added.');
+    } else {
+      const docRef = doc(db, 'commentPermissions', id);
+      try {
+        results.permissions.push(route.params.receiverEmail);
+        await updateDoc(docRef, results);
+        Alert.alert('Permission granted successfully.');
+      } catch (e) {
+        console.error('Belge güncelleme hatası: ', e);
+      }
+    }
   };
 
   const pickImage = async () => {

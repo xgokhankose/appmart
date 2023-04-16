@@ -5,7 +5,7 @@ export default StyleSheet.create({
     borderRadius: 27,
     margin: 8,
     padding: 5,
-    backgroundColor: Platform.OS === 'ios' ? '#fff' : null,
+    backgroundColor: Platform.OS === 'ios' ? '#fff' : "#fff",
     borderColor: '#ED6663',
     shadowColor: Platform.OS === 'ios' ? '#ED6663' : '#ED6663',
     shadowOffset: {
@@ -15,6 +15,7 @@ export default StyleSheet.create({
     shadowOpacity: Platform.OS === 'ios' ? 0.4 : 0.8,
     shadowRadius: Platform.OS === 'ios' ? null : 40,
     elevation: Platform.OS === 'ios' ? null : 4,
+    justifyContent: 'center',
   },
 
   image: {
@@ -47,8 +48,8 @@ export default StyleSheet.create({
     height: 80,
     paddingLeft: 10,
   },
-  button_container:{
-    paddingLeft:10,
-    paddingVertical:6
-  }
+  button_container: {
+    paddingLeft: 10,
+    paddingVertical: 6,
+  },
 });

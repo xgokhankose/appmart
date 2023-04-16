@@ -7,7 +7,7 @@ const ImageModal = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView  style={styles.container}>
       <View onTouchStart={() => closeModal(false, 'cancel')} style={styles.inner_container}></View>
       <Image source={{ uri: props.url }} style={styles.image} />
     </SafeAreaView>

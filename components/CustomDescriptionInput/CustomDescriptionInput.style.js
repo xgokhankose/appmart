@@ -17,6 +17,7 @@ export default StyleSheet.create({
     },
     header:{
         fontSize:17,
+        marginBottom: 8,
         fontFamily:"Nunito_400Regular"
     }
 })

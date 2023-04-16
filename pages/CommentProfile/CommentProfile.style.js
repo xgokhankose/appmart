@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-const device = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 export default StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   top_container: {
     flexDirection: 'row',
-    width: device.width,
+    width: width,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -54,4 +54,22 @@ export default StyleSheet.create({
     marginRight: 5,
     padding: 3,
   },
+  commentContainer: {
+    width: width - 80,
+    padding: 24,
+    backgroundColor: 'white',
+    marginTop: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 12
+  },
+  commentInput: {
+    width: '100% - 80',
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 48
+  },
+  star: {
+    marginVertical: 12
+  }
 });

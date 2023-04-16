@@ -6,7 +6,6 @@ import { useFonts, Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/
 import { getAuth } from 'firebase/auth';
 import { Provider } from 'react-redux';
 import { store } from './redux';
-import useGetData from './hooks/useGetData';
 
 export default function App() {
   const [isLogin, setIsLogin] = useState();
