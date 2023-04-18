@@ -11,9 +11,9 @@ const ChatStackScreens = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="CommentProfilePage" component={CommentProfile} />
       <Stack.Screen name="ChatListPage" component={ChatList} />
       <Stack.Screen name="ChatPage" component={Chat} />
+      <Stack.Screen name="CommentProfilePage" component={CommentProfile} />
     </Stack.Navigator>
   );
 };

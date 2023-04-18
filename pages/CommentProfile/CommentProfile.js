@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import styles from './CommentProfile.style';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
@@ -6,17 +6,32 @@ import { useNavigation } from '@react-navigation/native';
 import CustomDescriptionInput from '../../components/CustomDescriptionInput/CustomDescriptionInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Rating } from 'react-native-ratings';
+import { collection, query, where, getDocs, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
-const CommentProfile = () => {
+const CommentProfile = ({ route }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
   const [commentVisible, setCommentVisible] = useState(false);
+  const [info, setInfo] = useState();
 
   const navigation = useNavigation();
   const navigate = () => {
     navigation.goBack();
   };
   const handleSend = () => {
+    const commentRef = doc(db, 'commentPermissions', info.docId);
+
+
+    updateDoc(commentRef, {
+      comments: arrayUnion(comment),
+    })
+      .then(() => {
+        console.log('Yorum eklendi.');
+      })
+      .catch((error) => {
+        console.error('Yorum eklenirken bir hata oluştu: ', error);
+      });
     setCommentVisible(false);
   };
   const ratingCompleted = (rating) => {
@@ -36,19 +51,6 @@ const CommentProfile = () => {
             jumpValue={0.5}
             fractions={1}
           />
-        {/*   <Stars
-            half={true}
-            default={2.5}
-            update={(val) => {
-              this.setState({ stars: val });
-            }}
-            spacing={4}
-            starSize={40}
-            count={5}
-            fullStar={require('../../assets/star')}
-            emptyStar={require('../../assets/emptyStar')}
-            halfStar={require('../../assets/halfStar')}
-          /> */}
         </View>
       </View>
     );
@@ -57,6 +59,20 @@ const CommentProfile = () => {
   const setCommentVisibility = () => {
     setCommentVisible(true);
   };
+
+  useEffect(() => {
+    const usersRef = collection(db, 'commentPermissions');
+    const emailQuery = query(usersRef, where('email', '==', route.params.email));
+    getDocs(emailQuery)
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setInfo({ data: doc.data(), docId: doc.id });
+        });
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -75,7 +91,7 @@ const CommentProfile = () => {
           <Image style={styles.icon} source={require('../../assets/dots.png')} />
         </View>
         <Image source={require('../../assets/avatar.png')} style={styles.avatar} />
-        <Text style={styles.name}>Gokhan Kose</Text>
+        <Text style={styles.name}>{route.params.name}</Text>
         {commentVisible && renderComment()}
         <CustomButton
           onPress={!commentVisible ? setCommentVisibility : handleSend}
@@ -84,18 +100,6 @@ const CommentProfile = () => {
         />
 
         <FlatList style={styles.flatList} data={null} />
-
-        {/* <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Type a comment..."
-            value={message}
-            onChangeText={setMessage}
-          />
-          <TouchableOpacity style={styles.send_button} onPress={handleSend}>
-            <Text style={styles.send}>Send</Text>
-          </TouchableOpacity>
-        </View> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );

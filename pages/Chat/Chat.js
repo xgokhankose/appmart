@@ -53,7 +53,10 @@ const Chat = ({ route }) => {
   const flatListRef = useRef(null);
 
   const navigateCommentProfile = () => {
-    navigation.navigate('CommentProfilePage');
+    navigation.navigate('CommentProfilePage', {
+      name: route.params.receiver,
+      email: route.params.receiverEmail,
+    });
   };
 
   const setPermission = async () => {
