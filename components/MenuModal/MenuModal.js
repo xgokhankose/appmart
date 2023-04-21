@@ -12,7 +12,7 @@ const MenuModal = ({ changeModalVisible, onPress }) => {
       <View onTouchStart={() => closeModal(false, 'cancel')} style={styles.inner_container}></View>
       <Text style={styles.title}>Has the exchange started?</Text>
       <Text style={styles.description}>
-        After you approve each other's profile, you can comment and rate. You can't undo it.
+        If you approve this, you authorize the other user to evaluate you. You can't get it back.
       </Text>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text style={styles.text}>YES</Text>

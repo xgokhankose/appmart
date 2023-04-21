@@ -40,9 +40,7 @@ export default StyleSheet.create({
     fontFamily: 'Nunito_400Regular',
     fontSize: 16,
   },
-  flatList: {
-    backgroundColor: 'red',
-  },
+  flatList: {},
   send: {
     fontFamily: 'Nunito_700Bold',
     color: '#ED6663',
@@ -61,15 +59,15 @@ export default StyleSheet.create({
     marginTop: 24,
     borderRadius: 12,
     alignItems: 'center',
-    marginBottom: 12
+    marginBottom: 12,
   },
   commentInput: {
     width: '100% - 80',
     borderWidth: 1,
     borderRadius: 8,
-    height: 48
+    height: 48,
   },
   star: {
-    marginVertical: 12
-  }
+    marginVertical: 12,
+  },
 });

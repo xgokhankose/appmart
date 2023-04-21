@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { View, Text, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { useState, useEffect, useMemo } from 'react';
+import { View, Text, Image, KeyboardAvoidingView, TouchableOpacity, Alert } from 'react-native';
 import styles from './CommentProfile.style';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -8,23 +8,37 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { Rating } from 'react-native-ratings';
 import { collection, query, where, getDocs, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import Comments from '../../components/Comments';
+import { getAuth } from 'firebase/auth';
 
 const CommentProfile = ({ route }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
   const [commentVisible, setCommentVisible] = useState(false);
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState({ data: {} });
+  console.log(info.data.comments);
 
   const navigation = useNavigation();
   const navigate = () => {
     navigation.goBack();
   };
+
+  const commentList = ({ item }) => {
+    return <Comments item={item} />;
+  };
+
   const handleSend = () => {
+    console.log(info);
+
     const commentRef = doc(db, 'commentPermissions', info.docId);
-
-
+    const valueToAdd = {
+      comment: comment,
+      date: new Date(),
+      commentBy: { name: route.params.name, email: route.params.email },
+      rating: rating,
+    };
     updateDoc(commentRef, {
-      comments: arrayUnion(comment),
+      comments: arrayUnion(valueToAdd),
     })
       .then(() => {
         console.log('Yorum eklendi.');
@@ -37,6 +51,37 @@ const CommentProfile = ({ route }) => {
   const ratingCompleted = (rating) => {
     setRating(rating);
   };
+  /* const CommentComponent = () => {
+    const CommentComponentMemo = useMemo(() => {
+      return (
+        <View style={styles.commentContainer}>
+          <CustomDescriptionInput
+            inputValue={comment}
+            onChangeText={setComment}
+            header={'Comment'}
+          />
+          <View style={styles.star}>
+            <Rating
+              type="star"
+              ratingCount={5}
+              imageSize={32}
+              onFinishRating={ratingCompleted}
+              startingValue={rating}
+              jumpValue={0.5}
+              fractions={1}
+            />
+          </View>
+        </View>
+      );
+    }, [comment, rating]);
+
+    const renderComment = () => {
+      return CommentComponentMemo;
+    };
+
+    return renderComment();
+  }; */
+
   const renderComment = () => {
     return (
       <View style={styles.commentContainer}>
@@ -57,7 +102,11 @@ const CommentProfile = ({ route }) => {
   };
 
   const setCommentVisibility = () => {
-    setCommentVisible(true);
+    if (info.data.permissions.includes(getAuth().currentUser.displayName)) {
+      setCommentVisible(true);
+    } else {
+      Alert.alert('In order to use this feature, the user on the other end needs to approve you.');
+    }
   };
 
   useEffect(() => {
@@ -99,7 +148,9 @@ const CommentProfile = ({ route }) => {
           width={'80%'}
         />
 
-        <FlatList style={styles.flatList} data={null} />
+        {info.data.comments && (
+          <FlatList style={styles.flatList} data={info.data.comments} renderItem={commentList} />
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
