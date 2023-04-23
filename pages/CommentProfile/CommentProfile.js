@@ -16,7 +16,6 @@ const CommentProfile = ({ route }) => {
   const [rating, setRating] = useState(2.5);
   const [commentVisible, setCommentVisible] = useState(false);
   const [info, setInfo] = useState({ data: {} });
-  console.log(info.data.comments);
 
   const navigation = useNavigation();
   const navigate = () => {
@@ -27,14 +26,14 @@ const CommentProfile = ({ route }) => {
     return <Comments item={item} />;
   };
 
+
   const handleSend = () => {
-    console.log(info);
 
     const commentRef = doc(db, 'commentPermissions', info.docId);
     const valueToAdd = {
       comment: comment,
       date: new Date(),
-      commentBy: { name: route.params.name, email: route.params.email },
+      commentBy: { name: getAuth().currentUser.displayName, email: getAuth().currentUser.email },
       rating: rating,
     };
     updateDoc(commentRef, {
@@ -102,7 +101,7 @@ const CommentProfile = ({ route }) => {
   };
 
   const setCommentVisibility = () => {
-    if (info.data.permissions.includes(getAuth().currentUser.displayName)) {
+    if (info.data.permissions.includes(getAuth().currentUser.email)) {
       setCommentVisible(true);
     } else {
       Alert.alert('In order to use this feature, the user on the other end needs to approve you.');
@@ -141,6 +140,7 @@ const CommentProfile = ({ route }) => {
         </View>
         <Image source={require('../../assets/avatar.png')} style={styles.avatar} />
         <Text style={styles.name}>{route.params.name}</Text>
+
         {commentVisible && renderComment()}
         <CustomButton
           onPress={!commentVisible ? setCommentVisibility : handleSend}
@@ -149,7 +149,12 @@ const CommentProfile = ({ route }) => {
         />
 
         {info.data.comments && (
-          <FlatList style={styles.flatList} data={info.data.comments} renderItem={commentList} />
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            style={styles.flatList}
+            data={info.data.comments}
+            renderItem={commentList}
+          />
         )}
       </ScrollView>
     </KeyboardAvoidingView>
@@ -157,3 +162,7 @@ const CommentProfile = ({ route }) => {
 };
 
 export default CommentProfile;
+
+
+
+

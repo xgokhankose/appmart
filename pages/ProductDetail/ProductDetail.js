@@ -63,11 +63,17 @@ const ProductDetail = ({ route }) => {
     }
   };
 
+  const navigateCommentProfile = () => {
+    navigation.navigate('CommentProfilePage', {
+      name: product.userName,
+      email: product.user,
+    });
+  };
+
   var date = new Date(product.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
   var dataDay = date.getDate();
   var dataYear = date.getFullYear();
-
   const imagesList = (data) => {
     return (
       <TouchableOpacity
@@ -85,6 +91,9 @@ const ProductDetail = ({ route }) => {
       <View style={styles.icon_container}>
         <TouchableOpacity style={styles.icon_inner_container} onPress={navigation.goBack}>
           <Image style={styles.icon} source={require('../../assets/left-arrow.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={navigateCommentProfile} style={styles.userNameButton}>
+          <Text style={styles.userName}>{product.userName} </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.icon_inner_container}>
           <Image style={styles.icon} source={require('../../assets/dots.png')} />

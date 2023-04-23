@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
+    backgroundColor: '#fff',
   },
   avatar: {
     width: 50,
@@ -60,6 +61,8 @@ export default StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#bebebe',
   },
   commentInput: {
     width: '100% - 80',
@@ -70,4 +73,10 @@ export default StyleSheet.create({
   star: {
     marginVertical: 12,
   },
+  /* comment: {
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+  }, */
 });

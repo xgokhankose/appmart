@@ -85,12 +85,21 @@ export default StyleSheet.create({
   titles_inner_container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:"space-between"
+    justifyContent: 'space-between',
   },
   date: {
     fontSize: 14,
     fontFamily: 'Nunito_700Bold',
     color: '#606060',
     marginLeft: 10,
+  },
+  userName: {
+    fontSize: 20,
+    fontFamily: 'Nunito_700Bold',
+    color: '#ed6663',
+  },
+  userNameButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
