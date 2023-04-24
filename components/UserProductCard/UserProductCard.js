@@ -8,11 +8,16 @@ const UserProductCard = ({ item }) => {
     navigation.navigate('ProductEditPage', { id });
   };
 
-
   var date = new Date(item.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
+  if (dataMonth < 10) {
+    dataMonth = '0' + dataMonth;
+  }
   var dataDay = date.getDate();
-  var dataYear = date.getFullYear();
+  if (dataDay < 10) {
+    dataDay = '0' + dataDay;
+  }
+  var dataYear = date.getFullYear().toString().substring(2, 4);
   return (
     <View style={styles.container}>
       {item.images.length != 0 ? (
@@ -31,7 +36,7 @@ const UserProductCard = ({ item }) => {
         <View style={styles.calendar_container}>
           <Image style={styles.calendar} source={require('../../assets/calendar.png')} />
           <Text style={styles.date}>
-            {dataDay}.{dataMonth}.{dataYear}{' '}
+            {dataDay}.{dataMonth}.{dataYear}
           </Text>
         </View>
         <TouchableOpacity onPress={() => navigateProductEdit(item.id)} style={styles.button}>

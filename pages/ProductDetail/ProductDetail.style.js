@@ -91,7 +91,6 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Nunito_700Bold',
     color: '#606060',
-    marginLeft: 10,
   },
   userName: {
     fontSize: 20,
@@ -102,4 +101,10 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
+  calendar: {
+    height: 10,
+    width: 10,
+    marginRight: 4,
+  },
+  calendar_container: { flexDirection: 'row', alignItems: 'center' },
 });

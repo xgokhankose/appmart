@@ -9,7 +9,7 @@ const ViewUserProducts = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, alignItems: 'center' }}>
       <FlatList
         data={list}
         renderItem={productsRender}

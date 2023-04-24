@@ -6,13 +6,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ED6663',
-    padding: 15,
+    padding: 6,
     margin: 5,
     borderRadius: 20,
   },
   image: {
-    width: device.width * 0.4,
-    height: device.width * 0.4,
+    width: device.width * 0.43,
+    height: device.width * 0.43,
     borderRadius: 20,
   },
   inner_mid_container: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
   calendar: {
     height: 10,
     width: 10,
-    marginRight:4
+    marginRight: 4,
   },
   button: {
     backgroundColor: '#3C2C3E',

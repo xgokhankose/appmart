@@ -72,8 +72,14 @@ const ProductDetail = ({ route }) => {
 
   var date = new Date(product.createdAt.seconds * 1000);
   var dataMonth = date.getMonth();
+  if (dataMonth < 10) {
+    dataMonth = '0' + dataMonth;
+  }
   var dataDay = date.getDate();
-  var dataYear = date.getFullYear();
+  if (dataDay < 10) {
+    dataDay = '0' + dataDay;
+  }
+  var dataYear = date.getFullYear().toString().substring(2, 4);
   const imagesList = (data) => {
     return (
       <TouchableOpacity
@@ -103,9 +109,13 @@ const ProductDetail = ({ route }) => {
         <Text style={styles.name}>{product.name}</Text>
         <View style={styles.titles_inner_container}>
           <Text style={styles.category}>{product.category}</Text>
-          <Text style={styles.date}>
-            {dataDay}.{dataMonth}.{dataYear}
-          </Text>
+
+          <View style={styles.calendar_container}>
+            <Image style={styles.calendar} source={require('../../assets/calendar.png')} />
+            <Text style={styles.date}>
+              {dataDay}.{dataMonth}.{dataYear}
+            </Text>
+          </View>
         </View>
       </View>
       <View style={styles.image_container}>
