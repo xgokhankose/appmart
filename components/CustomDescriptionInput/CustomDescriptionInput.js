@@ -10,6 +10,7 @@ const CustomDescriptionInput = ({ header, placeholder, onChangeText, inputValue 
         multiline={true}
         style={styles.input}
         placeholder={placeholder}
+        maxLength={200}
       />
     </View>
   );

@@ -5,7 +5,7 @@ export default StyleSheet.create({
     borderRadius: 27,
     margin: 8,
     padding: 5,
-    backgroundColor: Platform.OS === 'ios' ? '#fff' : "#fff",
+    backgroundColor: Platform.OS === 'ios' ? '#fff' : '#fff',
     borderColor: '#ED6663',
     shadowColor: Platform.OS === 'ios' ? '#ED6663' : '#ED6663',
     shadowOffset: {
@@ -42,6 +42,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Nunito_700Bold',
     color: '#ED6663',
+    maxWidth: device.width * 0.3,
   },
   inner_container: {
     justifyContent: 'center',
