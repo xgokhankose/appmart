@@ -46,12 +46,16 @@ const ChatListRender = ({ item }) => {
     <TouchableOpacity onPress={navigateChat} style={styles.container}>
       <Image style={styles.image} source={{ uri: item.productImage }} />
       <View style={styles.inner_container}>
-        <View style={styles.inner_title_container}>
-          <Text numberOfLines={1} style={styles.name}>
-            {currentUser.displayName == item.senderName ? item.receiverName : item.senderName}
-          </Text>
-          <Text numberOfLines={1}> {item.messages[item.messages.length - 1].message} </Text>
-          <Text style={styles.product_name}>{item.productName}</Text>
+        <View style={styles.title_container}>
+          <View style={styles.inner_title_container}>
+            <Text numberOfLines={1} style={styles.name}>
+              {currentUser.displayName == item.senderName ? item.receiverName : item.senderName}
+            </Text>
+            <Text numberOfLines={1} style={styles.product_name}>
+              {item.productName}
+            </Text>
+          </View>
+          <Text numberOfLines={1}>{item.messages[item.messages.length - 1].message}</Text>
         </View>
         <Text style={styles.date}>
           {hour < 10 ? '0' + hour : hour}:{minute < 10 ? '0' + minute : minute}

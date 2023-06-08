@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   KeyboardAvoidingView,
+  RefreshControl,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Home.style';
@@ -14,11 +15,13 @@ import ProductCards from '../../components/ProductCards';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { fetchProducts } from '../../redux/productsSlice';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Home = () => {
   const [selected, setSelected] = useState();
   const [dataProducts, setDataProducts] = useState();
   const [searchText, setSearchText] = useState('');
+  const [refreshing, setRefreshing] = useState(false); // New state for refreshing
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -72,6 +75,13 @@ const Home = () => {
     return <ProductCards item={item} onPress={() => navigateProductDetail(item.id)} />;
   };
 
+  const onRefresh = () => {
+    setRefreshing(true); // Set refreshing to true when the refresh starts
+    dispatch(fetchProducts()).then(() => {
+      setRefreshing(false); // Set refreshing back to false when the refresh is completed
+    });
+  };
+
   useEffect(() => {
     setDataProducts(list);
   }, [list]);
@@ -85,63 +95,69 @@ const Home = () => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={60}>
-      <FlatList
-        data={dataProducts}
-        renderItem={productsRender}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        contentContainerStyle={styles.products_container}
-        ListHeaderComponent={
-          <>
-            <View style={styles.top_container}>
-              <Text style={styles.top_container_title}>Appmart</Text>
-              <View style={styles.search_bar}>
-                <TextInput
-                  value={searchText}
-                  onChangeText={(value) => {
-                    handleSearch(value);
-                    setSearchText(value);
-                  }}
-                  style={styles.search_bar_input}
-                  placeholder="Search here"
-                />
-                {searchText ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSearchText();
-                      handleSearch();
+      <ScrollView
+        refreshControl={
+          // Add the refresh control to the FlatList
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <FlatList
+          data={dataProducts}
+          renderItem={productsRender}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          contentContainerStyle={styles.products_container}
+          ListHeaderComponent={
+            <>
+              <View style={styles.top_container}>
+                <Text style={styles.top_container_title}>Appmart</Text>
+                <View style={styles.search_bar}>
+                  <TextInput
+                    value={searchText}
+                    onChangeText={(value) => {
+                      handleSearch(value);
+                      setSearchText(value);
                     }}
-                    style={styles.remove_bar_button}>
-                    <Image
-                      source={require('../../assets/remove.png')}
-                      style={styles.search_bar_icon}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity style={styles.search_bar_button}>
-                    <Image
-                      source={require('../../assets/magnifying-glass.png')}
-                      style={styles.search_bar_icon}
-                    />
-                  </TouchableOpacity>
-                )}
+                    style={styles.search_bar_input}
+                    placeholder="Search here"
+                  />
+                  {searchText ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSearchText();
+                        handleSearch();
+                      }}
+                      style={styles.remove_bar_button}>
+                      <Image
+                        source={require('../../assets/remove.png')}
+                        style={styles.search_bar_icon}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity style={styles.search_bar_button}>
+                      <Image
+                        source={require('../../assets/magnifying-glass.png')}
+                        style={styles.search_bar_icon}
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
-            </View>
-            <View style={styles.categories_container}>
-              <Text style={styles.categories_title}>Categories</Text>
-              <FlatList
-                style={styles.categories_list}
-                horizontal={true}
-                data={categories}
-                renderItem={categoriesRender}
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-          </>
-        }
-      />
+              <View style={styles.categories_container}>
+                <Text style={styles.categories_title}>Categories</Text>
+                <FlatList
+                  style={styles.categories_list}
+                  horizontal={true}
+                  data={categories}
+                  renderItem={categoriesRender}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+            </>
+          }
+        />
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

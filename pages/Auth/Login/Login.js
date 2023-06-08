@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(authentication, email, password)
-      .then((userCredential) => {
+      .then(() => {
         console.log('account login !');
       })
       .catch((error) => {
@@ -65,9 +65,6 @@ const Login = ({ navigation }) => {
             </View>
             <TouchableOpacity onPress={handleLogin} style={styles.main_container_button}>
               <Text style={styles.main_container_button_text}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.main_container_bottom_button}>
-              <Text style={styles.bottom_container_button_text}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.bottom_container}>

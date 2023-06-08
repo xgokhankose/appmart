@@ -18,6 +18,10 @@ const ProductDetail = ({ route }) => {
 
   const handleContactTrader = async () => {
     const currentUser = getAuth().currentUser;
+
+    if (product.user == currentUser.email) {
+      return;
+    }
     const productId = product.id;
 
     const searchValues1 = [{ senderEmail: currentUser.email }, { receiverEmail: product.user }];

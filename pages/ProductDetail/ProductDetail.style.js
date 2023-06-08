@@ -18,7 +18,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontSize: '30',
+    fontSize: 30,
     fontFamily: 'Nunito_400Regular',
   },
   titles_container: {

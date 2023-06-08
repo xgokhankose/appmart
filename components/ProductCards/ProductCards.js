@@ -1,9 +1,13 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity,Image } from 'react-native';
+import { Image as ImageCache } from 'react-native-expo-image-cache';
+
 import styles from './ProductCards.style';
 const ProductCards = ({ item, onPress }) => {
   return (
     <View style={[styles.container, styles.shadowProp]}>
-      <Image style={styles.image} source={{ uri: item.images[0].url }} />
+      <TouchableOpacity onPress={onPress} style={styles.button_container}>
+        <ImageCache style={styles.image} uri={item.images[0].url} />
+      </TouchableOpacity>
       <View style={styles.inner_container}>
         <Text numberOfLines={1} style={styles.name}>
           {item.name}

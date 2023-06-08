@@ -142,11 +142,11 @@ const ProductEdit = ({ route }) => {
         images: imageObjects,
       };
       dispatch(updateProduct({ id: product.id, updatedProduct }));
-      Alert.alert('Ürün başarıyla Güncellendi!');
+      Alert.alert('Product Updated successfully!');
       setIsUploading(false);
     } catch (error) {
       console.log(error);
-      Alert.alert('Ürün eklenirken beklenmedik bir hata oluştu!');
+      Alert.alert('An unexpected error occurred while adding the product!');
       setIsUploading(false);
     }
   };

@@ -25,11 +25,13 @@ export default StyleSheet.create({
     fontFamily: 'Nunito_700Bold',
   },
   product_name: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'Nunito_400Regular',
     color: '#404040',
+    marginLeft: 3,
+    maxWidth: device.width * 0.3,
   },
-  inner_title_container: {
+  title_container: {
     width: device.width * 0.6,
     paddingRight: device.width * 0.05,
   },
@@ -37,5 +39,9 @@ export default StyleSheet.create({
     fontSize: 16,
     color: 'gray',
     fontFamily: 'Nunito_400Regular',
+  },
+  inner_title_container: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

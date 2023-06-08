@@ -138,7 +138,7 @@ const AddProduct = () => {
           isActive: true,
         })
       ); */
-      Alert.alert('Ürün başarıyla eklendi!');
+      Alert.alert('The product has been successfully added!');
       setIsUploading(false);
       setName('');
       setDescription('');
@@ -146,7 +146,7 @@ const AddProduct = () => {
       setImageObjects([]);
     } catch (error) {
       console.log(error);
-      Alert.alert('Ürün eklenirken beklenmedik bir hata oluştu!');
+      Alert.alert('An unexpected error occurred while adding the product!');
       setIsUploading(false);
     }
   };

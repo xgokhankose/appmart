@@ -9,7 +9,7 @@ const ProfileStack = createNativeStackNavigator();
 const ProfileStackScreen = () => {
   return (
     <ProfileStack.Navigator screenOptions={{ title: '', headerTintColor: '#ED6663' }}>
-      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen options={{headerShown:false}} name="Profile" component={Profile} />
       <ProfileStack.Screen name="AddProductPage" component={AddProduct} />
       <ProfileStack.Screen name="ViewProductsPage" component={ViewUserProducts} />
       <ProfileStack.Screen name="ProductEditPage" component={ProductEdit} />
